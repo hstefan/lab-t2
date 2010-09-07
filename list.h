@@ -237,7 +237,7 @@ namespace ds
 	template <class T>
 	void list<T>::pop_back()
 	{
-		erase(end()--);
+		erase(--end());
 	}
 
 	template <class T>
