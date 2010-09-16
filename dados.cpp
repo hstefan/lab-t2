@@ -153,12 +153,12 @@ namespace base
 		return requisitos.end();
 	}
 
-	void Disciplina::adcionaRequisito(Disciplina* disciplina)
+	void Disciplina::adcionaRequisito(const Disciplina* disciplina)
 	{
 		requisitos.push_back(disciplina);
 	}
 
-	void Disciplina::removeRequisito(Disciplina* disciplina)
+	void Disciplina::removeRequisito(const Disciplina* disciplina)
 	{
 		for(DiscIterator it = requisitos.begin(); it != requisitos.end(); it++)
 		{
