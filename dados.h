@@ -4,6 +4,7 @@
 #include <string>
 #include "secondary_data.h"
 #include "list.h"
+#include "registro.h"
 
 namespace base
 {
@@ -14,7 +15,7 @@ namespace base
 	class Avaliacao;
 	class Curso;
 
-	class Aluno
+	class Aluno : public data::Registro
 	{
 	public:
 		Aluno(const Curso* curso, unsigned int matricula, const std::string& nome);
@@ -22,7 +23,7 @@ namespace base
 		const Curso& getCurso() const;
 		unsigned int getMatricula() const;
 		const std::string& getNome() const;
-		void setCurso(Curso* curso);
+		void setCurso(const Curso* curso);
 		void setMatricula(unsigned int matricula);
 		void setNome(const std::string& nome);
 	private:
@@ -31,7 +32,7 @@ namespace base
 		std::string nome;
 	};
 
-	class Professor
+	class Professor : public data::Registro
 	{
 	public:
 		Professor(const std::string& siape, const std::string& nome, const std::string& area, const std::string& titulacao);
@@ -51,16 +52,16 @@ namespace base
 		std::string titulacao;
 	};
 
-	class Disciplina
+	class Disciplina : public data::Registro
 	{
 	public:
 		typedef ds::list<const Disciplina*>::iterator DiscIterator;
 
 		Disciplina(const std::string& codigo, Curso* curso, const std::string& nome, 
-			unsigned int carga, const ds::list<Disciplina>& requisitos = ds::list<Disciplina>());
+			unsigned int carga, ds::list<Disciplina>& requisitos = ds::list<Disciplina>());
 
-		void setCodigo(const std::string codigo);
-		void setCurso(Curso* curso);
+		void setCodigo(const std::string& codigo);
+		void setCurso(const Curso* curso);
 		void setNome(const std::string& nome);
 		void setCarga(unsigned int carga);
 		
@@ -71,8 +72,8 @@ namespace base
 		const Curso& getCurso() const;
 		const std::string& getNome() const;
 		unsigned int getCarga() const;
-		DiscIterator getRequisitosBeginIter() const;
-		DiscIterator getRequisitosEndIter() const;
+		DiscIterator getRequisitosBeginIter();
+		DiscIterator getRequisitosEndIter();
 
 		void adcionaRequisito(const Disciplina* disciplina);
 		void removeRequisito(const Disciplina* disciplina);
@@ -82,10 +83,10 @@ namespace base
 		const Curso* curso;
 		std::string nome;
 		unsigned int carga;
-		ds::list<const Disciplina*> requistos; 
+		ds::list<const Disciplina*> requisitos; 
 	};
 
-	class Turma
+	class Turma : public data::Registro
 	{
 	public:
 		typedef ds::list<const Aluno*>::iterator AlunosIter;
@@ -117,7 +118,7 @@ namespace base
 		const Curso* curso;
 	};
 
-	class Curso
+	class Curso : public data::Registro
 	{
 	public:
 		typedef ds::list<const Turma*>::iterator TurmasIter;
