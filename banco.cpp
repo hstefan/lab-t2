@@ -42,4 +42,18 @@ namespace bd
 			}
 		}
 	}
+
+	void Banco::erase(const std::string& table, Registro* reg)
+	{
+		tabelas[table]->remove(reg);
+	}
+
+	Tabela::Tabela(const std::string& table_name)
+		: name(table_name)
+	{}
+
+	const std::string& Tabela::table_name() const
+	{
+		return name;
+	}
 }
