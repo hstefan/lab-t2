@@ -1,15 +1,10 @@
 #include <iostream>
-#include "list.h"
+#include "tabelas.h"
+#include "banco.h"
 
 int main(int argc, char* argv[])
 {
-	ds::list<int> foo;
-	for(int i = 0; i < 20; ++i)
-		foo.push_back(i);
-	foo.pop_back();
-	foo.pop_front();
-	for(ds::list<int>::iterator it = foo.begin(); it != foo.end(); it++)
-		std::cout <<  *it << std::endl;
-	int a;
-	std::cin >> a;
+	bd::Banco::getInstance().registerTable(new base::Alunos());
+	base::Aluno a(0, 0, "Hugo");
+	bd::Banco::getInstance().save("alunos", &a);
 }

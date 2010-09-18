@@ -51,4 +51,9 @@ namespace bd
 	{
 		return name;
 	}
+
+	Banco& Banco::getInstance() 
+	{
+		return _instance;
+	}
 }

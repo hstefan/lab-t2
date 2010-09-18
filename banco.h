@@ -26,19 +26,15 @@ namespace bd
 	class Banco
 	{
 	public:
-		static Banco& getInstance()
-		{ return _instance; }
-
+		static Banco& getInstance();
 		void registerTable(Tabela* table);
 		void deleteTable(const std::string& name);
 		void save(const std::string& table, Registro* reg);
 		void sync(const std::string& table, Registro* reg);
 		void erase(const std::string& table, Registro* reg);
 	private:
-		Banco() 
-		{ }
-		~Banco()
-		{ }
+		Banco();
+		~Banco();
 		Banco(const Banco&);
 		Banco& operator=(const Banco&);
 

@@ -26,6 +26,10 @@ namespace base
 		void setCurso(const Curso* curso);
 		void setMatricula(unsigned int matricula);
 		void setNome(const std::string& nome);
+
+		virtual void save() {};
+		virtual void erase() {};
+		virtual void sync() {};
 	private:
 		const Curso* curso;
 		unsigned int matricula;

@@ -9,8 +9,6 @@ namespace data
 		virtual void save() = 0;
 		virtual void erase() = 0;
 		virtual void sync() = 0;
-	private:
-		//TODO: db adapter singleton
 	};
 }
 

@@ -9,22 +9,23 @@ namespace ds
 		struct list_node
 		{
 		public:
-			list_node(const T& v, list_node<T>* p = 0, list_node<T>* n = 0);
-			list_node(list_node<T>* node);
+			list_node(const T& v, list_node<T>* p, list_node<T>* n);
+			list_node(list_node<T>* p = 0, list_node<T>* n = 0);
 			list_node<T>* prev;
 			list_node<T>* next;
-			T val;
+			T* val;
 		};
 
 		template <class T>
 		list_node<T>::list_node( const T& v, list_node<T>* p, list_node<T>* n)
-			: prev(p), next(n), val(v)
+			: prev(p), next(n), val(new T(v))
 		{}
 
 		template <class T>
-		list_node<T>::list_node(list_node<T>* node)
-			: prev(node->prev), next(node->next), val(node->val)
+		list_node<T>::list_node(list_node<T>* p, list_node<T>* n)
+			: prev(p), next(n), val(0)
 		{}
+
 
 		template <class T>
 		class list_iterator
@@ -120,7 +121,7 @@ namespace ds
 		template <class T>
 		T& list_iterator<T>::operator*()
 		{
-			return node_ptr->val;
+			return *node_ptr->val;
 		}
 	}
 
@@ -161,8 +162,8 @@ namespace ds
 	template <class T>
 	void list<T>::init_nodes()
 	{
-		last = new detail::list_node<T>(T(), 0, 0);
-		first = new detail::list_node<T>(T(),  0, last);
+		last = new detail::list_node<T>(0, 0);
+		first = new detail::list_node<T>(0, last);
 		last->prev = first;
 	}
 	template <class T>
