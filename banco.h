@@ -12,7 +12,7 @@ namespace bd
 	class Tabela
 	{
 	public:
-		Tabela(const std::string table_name);
+		Tabela(const std::string& table_name);
 		virtual void store(Registro* reg) = 0;
 		virtual void remove(Registro* reg) = 0;
 		virtual void update(Registro* reg) = 0;
@@ -41,6 +41,9 @@ namespace bd
 		{ }
 		Banco(const Banco&);
 		Banco& operator=(const Banco&);
+
+		typedef ds::list<Tabela*>::iterator TabelaIter;
+		TabelaIter searchTable(const std::string& name);
 
 		static Banco _instance;
 		ds::list<Tabela*> tabelas;
