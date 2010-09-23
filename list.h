@@ -149,8 +149,8 @@ namespace ds
 		bool empty();
 		unsigned int size();
 
-		iterator begin();
-		iterator end();
+		iterator begin() const;
+		iterator end() const;
 	protected:
 		void init_nodes();
 	private:
@@ -183,13 +183,13 @@ namespace ds
 	}
 
 	template <class T>
-	typename list<T>::iterator list<T>::begin()
+	typename list<T>::iterator list<T>::begin() const
 	{
 		return iterator(first->next);
 	}
 
 	template <class T>
-	typename list<T>::iterator list<T>::end()
+	typename list<T>::iterator list<T>::end() const
 	{
 		return iterator(last);
 	}
@@ -199,7 +199,7 @@ namespace ds
 		: first(0), last(0), sz(0)
 	{
 		init_nodes();
-		for(iterator it = lst.begin(); it != lst.end(); i++)
+		for(iterator it = lst.begin(); it != lst.end(); it++)
 			push_back(*it);
 	}
 
