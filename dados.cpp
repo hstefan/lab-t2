@@ -7,19 +7,27 @@ namespace base
 		: curso(curso), matricula(matricula), nome(nome), Registro("alunos") 
 	{}
 
+	Aluno& Aluno::operator=(const Aluno& aluno)
+	{
+		curso = aluno.curso;
+		matricula = aluno.getMatricula();
+		nome = aluno.getNome();
+		return *this;
+	}
+
 	void Aluno::save()
 	{
-		Banco.getInstance().save(nome_tabela, this);
+		Banco::getInstance().save(nome_tabela, this);
 	}
 
 	void Aluno::erase()
 	{
-		Banco.getInstance().erase(nome_tabela, this);
+		Banco::getInstance().erase(nome_tabela, this);
 	}
 
 	void Aluno::sync()
 	{
-		Banco.getInstance().sync(nome_tabela, this);
+		Banco::getInstance().sync(nome_tabela, this);
 	}
 
 	const Curso& Aluno::getCurso() const
@@ -59,17 +67,17 @@ namespace base
 
 	void Professor::save()
 	{
-		Banco.getInstance().save(nome_tabela, this);
+		Banco::getInstance().save(nome_tabela, this);
 	}
 
 	void Professor::erase()
 	{
-		Banco.getInstance().erase(nome_tabela, this);
+		Banco::getInstance().erase(nome_tabela, this);
 	}
 
 	void Professor::sync()
 	{
-		Banco.getInstance().sync(nome_tabela, this);
+		Banco::getInstance().sync(nome_tabela, this);
 	}
 
 	void Professor::setSiape(const std::string& siape)
@@ -124,17 +132,17 @@ namespace base
 	
 	void Disciplina::save()
 	{
-		Banco.getInstance().save(nome_tabela, this);
+		Banco::getInstance().save(nome_tabela, this);
 	}
 
 	void Disciplina::erase()
 	{
-		Banco.getInstance().erase(nome_tabela, this);
+		Banco::getInstance().erase(nome_tabela, this);
 	}
 
 	void Disciplina::sync()
 	{
-		Banco.getInstance().sync(nome_tabela, this);
+		Banco::getInstance().sync(nome_tabela, this);
 	}
 
 	void Disciplina::setCodigo(const std::string& codigo)
@@ -281,17 +289,17 @@ namespace base
 
 	void Turma::save()
 	{
-		Banco.getInstance().save(nome_tabela, this);
+		Banco::getInstance().save(nome_tabela, this);
 	}
 
 	void Turma::erase()
 	{
-		Banco.getInstance().erase(nome_tabela, this);
+		Banco::getInstance().erase(nome_tabela, this);
 	}
 
 	void Turma::sync()
 	{
-		Banco.getInstance().sync(nome_tabela, this);
+		Banco::getInstance().sync(nome_tabela, this);
 	}
 
 	Curso::Curso(const std::string& codigo, const std::string& nome, ds::list<Turma>& turmas)
@@ -299,6 +307,16 @@ namespace base
 	{
 		for(ds::list<Turma>::iterator it = turmas.begin(); it != turmas.end(); it++)
 			this->turmas.push_back(&(*it));
+	}
+
+	Curso& Curso::operator=(const Curso& curso)
+	{
+		codigo = curso.getCodigo();
+		nome = curso.getNome();
+		turmas.clear();
+		for(ds::list<Turma*>::iterator it = curso.getTurmasBegin(); it != turmas.end(); it++)
+			this->turmas.push_back(*it);
+		return *this;
 	}
 
 	const std::string& Curso::getCodigo() const
@@ -311,12 +329,12 @@ namespace base
 		return nome;
 	}
 
-	Curso::TurmasIter Curso::getTurmasBegin()
+	Curso::TurmasIter Curso::getTurmasBegin() const
 	{
 		return turmas.begin();
 	}
 
-	Curso::TurmasIter Curso::getTurmasEnd()
+	Curso::TurmasIter Curso::getTurmasEnd() const
 	{
 		return turmas.end();
 	}
@@ -343,16 +361,16 @@ namespace base
 
 	void Curso::save()
 	{
-		Banco.getInstance().save(nome_tabela, this);
+		Banco::getInstance().save(nome_tabela, this);
 	}
 
 	void Curso::erase()
 	{
-		Banco.getInstance().erase(nome_tabela, this);
+		Banco::getInstance().erase(nome_tabela, this);
 	}
 
 	void Curso::sync()
 	{
-		Banco.getInstance().sync(nome_tabela, this);
+		Banco::getInstance().sync(nome_tabela, this);
 	}
 }

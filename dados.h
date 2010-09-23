@@ -30,6 +30,8 @@ namespace base
 		virtual void save();
 		virtual void erase();
 		virtual void sync();
+
+		Aluno& operator=(const Aluno& aluno);
 	private:
 		const Curso* curso;
 		unsigned int matricula;
@@ -142,11 +144,11 @@ namespace base
 		Curso(const std::string& codigo, const std::string& nome, ds::list<Turma>& turmas
 			= ds::list<Turma>()); 
 		typedef ds::list<Turma*>::iterator TurmasIter;
-
+		Curso& operator=(const Curso& curso);
 		const std::string& getCodigo() const;
 		const std::string& getNome() const;
-		TurmasIter getTurmasBegin();
-		TurmasIter getTurmasEnd();
+		TurmasIter getTurmasBegin() const;
+		TurmasIter getTurmasEnd() const;
 		
 		void setCodigo(const std::string& codigo);
 		void setNome(const std::string& nome);
