@@ -1,6 +1,8 @@
 #ifndef HUGO_REGISTRO_H__
 #define HUGO_REGISTRO_H__
 
+#include <string>
+
 namespace data
 {
 	class Registro
