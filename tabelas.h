@@ -59,8 +59,25 @@ namespace base
 		virtual void remove(Registro* reg);
 		virtual void update(Registro* reg);
 	
+	protected:
+		typedef list<Turma>::iterator TurmaIter;
+		TurmaIter search(const Turma& turma);
 	private:
-		list<Turma> alunos;
+		list<Turma> turmas;
+	};
+
+	class Cursos : public Tabela
+	{
+	public:
+		Cursos();
+		virtual void store(Registro* reg);
+		virtual void remove(Registro* reg);
+		virtual void update(Registro* reg);
+	protected:
+		typedef list<Curso>::iterator CursoIter;
+		CursoIter search(const Curso& curso);
+	private:
+		list<Curso> cursos;
 	};
 }
 
