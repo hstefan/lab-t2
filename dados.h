@@ -109,7 +109,7 @@ namespace base
 		typedef ds::list<Aluno*>::iterator AlunosIter;
 		typedef ds::list<Professor*>::iterator ProfessoresIter;
 		
-		Turma(const Curso* curso, ds::list<Aluno>& alunos, ds::list<Professor>& professores);
+		Turma(const Curso* curso, ds::list<Aluno>& alunos = ds::list<Aluno>(), ds::list<Professor>& professores = ds::list<Professor>());
 		Turma& operator=(const Turma& turma);
 
 		AlunosIter getAlunosBegin() const;
@@ -136,21 +136,22 @@ namespace base
 		virtual void sync();
 
 	private:
+		ds::list<Aluno*> alunos;
+		ds::list<Professor*> professores;
+		const Curso* curso;
 		int codigo;
 
-		inline int getCodigo()
+		inline int getCodigo() const
 		{
 			return codigo;
 		}
 
-		inline int setCodigo(int cod)
+		inline void setCodigo(int cod)
 		{
 			codigo = cod;
 		}
 
-		ds::list<Aluno*> alunos;
-		ds::list<Professor*> professores;
-		const Curso* curso;
+		friend class Turmas;
 	};
 
 	class Curso : public data::Registro
