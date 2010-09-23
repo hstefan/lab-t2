@@ -1,11 +1,26 @@
 #include "dados.h"
-
+#include "banco.h"
 namespace base
 {
-
+	using bd::Banco;
 	Aluno::Aluno(const Curso* curso, unsigned int matricula, const std::string& nome)
-		: curso(curso), matricula(matricula), nome(nome) 
+		: curso(curso), matricula(matricula), nome(nome), Registro("alunos") 
 	{}
+
+	void Aluno::save()
+	{
+		Banco.getInstance().save(nome_tabela, this);
+	}
+
+	void Aluno::erase()
+	{
+		Banco.getInstance().erase(nome_tabela, this);
+	}
+
+	void Aluno::sync()
+	{
+		Banco.getInstance().sync(nome_tabela, this);
+	}
 
 	const Curso& Aluno::getCurso() const
 	{ 
@@ -39,8 +54,23 @@ namespace base
 
 	Professor::Professor(const std::string& siape, const std::string& nome, 
 		const std::string& area, const std::string& titulacao)
-		: siape(siape), nome(nome), area(area), titulacao(titulacao)
+		: siape(siape), nome(nome), area(area), titulacao(titulacao), Registro("professores")
 	{}
+
+	void Professor::save()
+	{
+		Banco.getInstance().save(nome_tabela, this);
+	}
+
+	void Professor::erase()
+	{
+		Banco.getInstance().erase(nome_tabela, this);
+	}
+
+	void Professor::sync()
+	{
+		Banco.getInstance().sync(nome_tabela, this);
+	}
 
 	void Professor::setSiape(const std::string& siape)
 	{
@@ -84,7 +114,7 @@ namespace base
 
 	Disciplina::Disciplina(const std::string& codigo, Curso* curso, const std::string& nome, 
 			unsigned int carga, ds::list<Disciplina>& requisitos)
-		: codigo(codigo), curso(curso), nome(nome), carga(carga), requisitos()
+		: codigo(codigo), curso(curso), nome(nome), carga(carga), requisitos(), Registro("disciplinas")
 	{
 		for(ds::list<Disciplina>::iterator it = requisitos.begin(); it != requisitos.end(); it++)
 		{
@@ -92,6 +122,21 @@ namespace base
 		}
 	}
 	
+	void Disciplina::save()
+	{
+		Banco.getInstance().save(nome_tabela, this);
+	}
+
+	void Disciplina::erase()
+	{
+		Banco.getInstance().erase(nome_tabela, this);
+	}
+
+	void Disciplina::sync()
+	{
+		Banco.getInstance().sync(nome_tabela, this);
+	}
+
 	void Disciplina::setCodigo(const std::string& codigo)
 	{
 		this->codigo = codigo;
@@ -173,5 +218,141 @@ namespace base
 	void Disciplina::removeRequisito(DiscIterator disciplina)
 	{
 		requisitos.erase(disciplina);
+	}
+
+	Turma::Turma(const Curso* curso, ds::list<Aluno>& alunos, ds::list<Professor>& professores)
+		: alunos(), professores(), curso(curso), Registro("turmas")
+	{
+		for(ds::list<Aluno>::iterator it = alunos.begin(); it != alunos.end(); it++)
+			this->alunos.push_back(&(*it));
+		for(ds::list<Professor>::iterator it = professores.begin(); it != professores.end(); it++)
+			this->professores.push_back(&(*it));
+	}
+
+	Turma::AlunosIter Turma::getAlunosBegin()
+	{
+		return alunos.begin();
+	}
+
+	Turma::AlunosIter Turma::getAlunosEnd()
+	{
+		return alunos.end();
+	}
+
+	Turma::ProfessoresIter Turma::getProfessoresBegin()
+	{
+		return professores.begin();
+	}
+
+	Turma::ProfessoresIter Turma::getProfessoresEnd()
+	{
+		return professores.end();
+	}
+
+	const Curso& Turma::getCurso()
+	{
+		return *curso;
+	}
+
+	void Turma::setCurso(const Curso* curso)
+	{
+		this->curso = curso;
+	}
+
+	void Turma::adcionaAluno(Aluno* aluno)
+	{
+		alunos.push_back(aluno);
+	}
+
+	void Turma::adcionaProfessor(Professor* professor)
+	{
+		professores.push_back(professor);
+	}
+
+	void Turma::removerAluno(AlunosIter aluno)
+	{
+		alunos.erase(aluno);
+	}
+
+	void Turma::removerProfessor(ProfessoresIter professor)
+	{
+		professores.erase(professor);
+	}
+
+	void Turma::save()
+	{
+		Banco.getInstance().save(nome_tabela, this);
+	}
+
+	void Turma::erase()
+	{
+		Banco.getInstance().erase(nome_tabela, this);
+	}
+
+	void Turma::sync()
+	{
+		Banco.getInstance().sync(nome_tabela, this);
+	}
+
+	Curso::Curso(const std::string& codigo, const std::string& nome, ds::list<Turma>& turmas)
+		: codigo(codigo), nome(nome), turmas(), Registro("cursos")
+	{
+		for(ds::list<Turma>::iterator it = turmas.begin(); it != turmas.end(); it++)
+			this->turmas.push_back(&(*it));
+	}
+
+	const std::string& Curso::getCodigo() const
+	{
+		return codigo;
+	}
+
+	const std::string& Curso::getNome() const
+	{
+		return nome;
+	}
+
+	Curso::TurmasIter Curso::getTurmasBegin()
+	{
+		return turmas.begin();
+	}
+
+	Curso::TurmasIter Curso::getTurmasEnd()
+	{
+		return turmas.end();
+	}
+	
+	void Curso::setCodigo(const std::string& codigo)
+	{
+		this->codigo = codigo;
+	}
+
+	void Curso::setNome(const std::string& nome)
+	{
+		this->nome = nome;
+	}
+
+	void Curso::adcionaTurma(Turma* const turma)
+	{
+		turmas.push_back(turma);
+	}
+
+	void Curso::removeTurma(TurmasIter turma)
+	{
+		turmas.erase(turma);
+	}
+
+	void Curso::save()
+	{
+		Banco.getInstance().save(nome_tabela, this);
+	}
+
+	void Curso::erase()
+	{
+		Banco.getInstance().erase(nome_tabela, this);
+	}
+
+	void Curso::sync()
+	{
+		Banco.getInstance().sync(nome_tabela, this);
 	}
 }
