@@ -27,9 +27,9 @@ namespace base
 		void setMatricula(unsigned int matricula);
 		void setNome(const std::string& nome);
 
-		virtual void save() {};
-		virtual void erase() {};
-		virtual void sync() {};
+		virtual void save();
+		virtual void erase();
+		virtual void sync();
 	private:
 		const Curso* curso;
 		unsigned int matricula;
@@ -49,6 +49,10 @@ namespace base
 		const std::string& getNome() const;
 		const std::string& getArea() const;
 		const std::string& getTitulacao() const;
+
+		virtual void save();
+		virtual void erase();
+		virtual void sync();
 	private:
 		std::string siape;
 		std::string nome;
@@ -82,6 +86,10 @@ namespace base
 		void adcionaRequisito(const Disciplina* disciplina);
 		void removeRequisito(const Disciplina* disciplina);
 		void removeRequisito(const DiscIterator disciplina);
+
+		virtual void save();
+		virtual void erase();
+		virtual void sync();
 	private:
 		std::string codigo;
 		const Curso* curso;
@@ -93,10 +101,10 @@ namespace base
 	class Turma : public data::Registro
 	{
 	public:
-		typedef ds::list<const Aluno*>::iterator AlunosIter;
-		typedef ds::list<const Professor*>::iterator ProfessoresIter;
+		typedef ds::list<Aluno*>::iterator AlunosIter;
+		typedef ds::list<Professor*>::iterator ProfessoresIter;
 		
-		Turma(const Curso* curso, const ds::list<Aluno>& alunos, const ds::list<Aluno>& professores);
+		Turma(const Curso* curso, ds::list<Aluno>& alunos, ds::list<Professor>& professores);
 
 		AlunosIter getAlunosBegin();
 		AlunosIter getAlunosEnd();
@@ -112,23 +120,31 @@ namespace base
 
 		void setCurso(const Curso* curso);
 
-		void adcionaAluno(const Aluno* aluno);
-		void adcionaProfessor(const Professor* professor);
+		void adcionaAluno(Aluno* aluno);
+		void adcionaProfessor(Professor* professor);
 		void removerAluno(AlunosIter aluno);
 		void removerProfessor(ProfessoresIter professor);
+
+		virtual void save();
+		virtual void erase();
+		virtual void sync();
+
 	private:
-		ds::list<const Aluno*> alunos;
-		ds::list<const Professor*> professores;
+		ds::list<Aluno*> alunos;
+		ds::list<Professor*> professores;
 		const Curso* curso;
 	};
 
 	class Curso : public data::Registro
 	{
 	public:
-		typedef ds::list<const Turma*>::iterator TurmasIter;
 
-		const std::string& getCodigo();
-		const std::string& getNome();
+		Curso(const std::string& codigo, const std::string& nome, ds::list<Turma>& turmas
+			= ds::list<Turma>()); 
+		typedef ds::list<Turma*>::iterator TurmasIter;
+
+		const std::string& getCodigo() const;
+		const std::string& getNome() const;
 		TurmasIter getTurmasBegin();
 		TurmasIter getTurmasEnd();
 		
@@ -137,13 +153,15 @@ namespace base
 		template <class InputIterator>
 		  void setTurmas(InputIterator begin, InputIterator end);
 
-		void adcionaTurma(const Turma* turma);
-		void removeTurma(const Turma* turma);
+		void adcionaTurma(Turma* const turma);
 		void removeTurma(TurmasIter turma);
+		virtual void save();
+		virtual void erase();
+		virtual void sync();
 	private:
 		std::string codigo;
 		std::string nome;
-		ds::list<const Turma*> turmas;
+		ds::list<Turma*> turmas;
 	};
 }
 
