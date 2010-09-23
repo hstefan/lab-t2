@@ -2,7 +2,6 @@
 #define HUGO_DATA_H__
 
 #include <string>
-#include "secondary_data.h"
 #include "list.h"
 #include "registro.h"
 
@@ -43,6 +42,8 @@ namespace base
 	public:
 		Professor(const std::string& siape, const std::string& nome, const std::string& area, const std::string& titulacao);
 		
+		Professor& operator=(const Professor& professor);
+
 		void setSiape(const std::string& siape);
 		void setNome(const std::string& nome);
 		void setArea(const std::string& area);
@@ -70,6 +71,8 @@ namespace base
 		Disciplina(const std::string& codigo, Curso* curso, const std::string& nome, 
 			unsigned int carga, ds::list<Disciplina>& requisitos = ds::list<Disciplina>());
 
+		Disciplina& operator=(const Disciplina& disciplina);
+
 		void setCodigo(const std::string& codigo);
 		void setCurso(const Curso* curso);
 		void setNome(const std::string& nome);
@@ -82,8 +85,8 @@ namespace base
 		const Curso& getCurso() const;
 		const std::string& getNome() const;
 		unsigned int getCarga() const;
-		DiscIterator getRequisitosBeginIter();
-		DiscIterator getRequisitosEndIter();
+		DiscIterator getRequisitosBeginIter() const;
+		DiscIterator getRequisitosEndIter() const;
 
 		void adcionaRequisito(const Disciplina* disciplina);
 		void removeRequisito(const Disciplina* disciplina);
@@ -107,12 +110,13 @@ namespace base
 		typedef ds::list<Professor*>::iterator ProfessoresIter;
 		
 		Turma(const Curso* curso, ds::list<Aluno>& alunos, ds::list<Professor>& professores);
+		Turma& operator=(const Turma& turma);
 
-		AlunosIter getAlunosBegin();
-		AlunosIter getAlunosEnd();
-		ProfessoresIter getProfessoresBegin();
-		ProfessoresIter getProfessoresEnd();
-		const Curso&  getCurso();
+		AlunosIter getAlunosBegin() const;
+		AlunosIter getAlunosEnd() const;
+		ProfessoresIter getProfessoresBegin() const;
+		ProfessoresIter getProfessoresEnd() const;
+		const Curso& getCurso() const;
 
 		template <class InputIterator>
 		  void setAlunos(InputIterator begin, InputIterator end);
@@ -145,6 +149,7 @@ namespace base
 			= ds::list<Turma>()); 
 		typedef ds::list<Turma*>::iterator TurmasIter;
 		Curso& operator=(const Curso& curso);
+
 		const std::string& getCodigo() const;
 		const std::string& getNome() const;
 		TurmasIter getTurmasBegin() const;
@@ -165,6 +170,17 @@ namespace base
 		std::string nome;
 		ds::list<Turma*> turmas;
 	};
+
+	template <class InputIterator>
+	void Disciplina::setRequisitos(InputIterator begin, InputIterator end)
+	{
+		requisitos.clear();
+		while(begin != end)
+		{
+			requisitos.push_back(*begin);
+			begin++;
+		}
+	}
 }
 
 #endif

@@ -65,6 +65,15 @@ namespace base
 		: siape(siape), nome(nome), area(area), titulacao(titulacao), Registro("professores")
 	{}
 
+	Professor& Professor::operator=(const Professor& professor)
+	{
+		setSiape(professor.getSiape());
+		setNome(professor.getNome());
+		setArea(professor.getArea());
+		setTitulacao(professor.getTitulacao());
+		return *this;
+	}
+
 	void Professor::save()
 	{
 		Banco::getInstance().save(nome_tabela, this);
@@ -130,6 +139,16 @@ namespace base
 		}
 	}
 	
+	Disciplina& Disciplina::operator=(const Disciplina& disciplina)
+	{
+		setCodigo(disciplina.getCodigo());
+		setCurso(&disciplina.getCurso());
+		setNome(disciplina.getNome());
+		setCarga(disciplina.getCarga());
+		setRequisitos(disciplina.getRequisitosBeginIter(), disciplina.getRequisitosEndIter());
+		return *this;
+	}
+
 	void Disciplina::save()
 	{
 		Banco::getInstance().save(nome_tabela, this);
@@ -165,17 +184,6 @@ namespace base
 		this->carga = carga;
 	}
 
-	template <class InputIterator>
-	void Disciplina::setRequisitos(InputIterator begin, InputIterator end)
-	{
-		requisitos.clear();
-		while(begin != end)
-		{
-			requisitos.push_back(*begin);
-			begin++;
-		}
-	}
-
 	const std::string& Disciplina::getCodigo() const
 	{
 		return codigo;
@@ -196,12 +204,12 @@ namespace base
 		return carga;
 	}
 
-	Disciplina::DiscIterator Disciplina::getRequisitosBeginIter()
+	Disciplina::DiscIterator Disciplina::getRequisitosBeginIter() const
 	{
 		return requisitos.begin();
 	}
 
-	Disciplina::DiscIterator Disciplina::getRequisitosEndIter()
+	Disciplina::DiscIterator Disciplina::getRequisitosEndIter() const
 	{
 		return requisitos.end();
 	}
@@ -237,27 +245,34 @@ namespace base
 			this->professores.push_back(&(*it));
 	}
 
-	Turma::AlunosIter Turma::getAlunosBegin()
+	Turma& Turma::operator=(const Turma& turma)
+	{
+		setCurso(&turma.getCurso());
+		setAlunos(turma.getAlunosBegin(), turma.getAlunosEnd());
+		setProfessores(turma.getProfessoresBegin(), turma.getProfessoresEnd());
+	}
+
+	Turma::AlunosIter Turma::getAlunosBegin() const
 	{
 		return alunos.begin();
 	}
 
-	Turma::AlunosIter Turma::getAlunosEnd()
+	Turma::AlunosIter Turma::getAlunosEnd() const
 	{
 		return alunos.end();
 	}
 
-	Turma::ProfessoresIter Turma::getProfessoresBegin()
+	Turma::ProfessoresIter Turma::getProfessoresBegin() const
 	{
 		return professores.begin();
 	}
 
-	Turma::ProfessoresIter Turma::getProfessoresEnd()
+	Turma::ProfessoresIter Turma::getProfessoresEnd() const
 	{
 		return professores.end();
 	}
 
-	const Curso& Turma::getCurso()
+	const Curso& Turma::getCurso() const
 	{
 		return *curso;
 	}
