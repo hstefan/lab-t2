@@ -9,6 +9,11 @@ namespace data
 		virtual void save() = 0;
 		virtual void erase() = 0;
 		virtual void sync() = 0;
+	protected:
+		const std::string nome_tabela;
+		Registro(const std::string& tab)
+			: nome_tabela(tab)
+		{}
 	};
 }
 
