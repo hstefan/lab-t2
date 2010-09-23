@@ -44,7 +44,8 @@ namespace base
 		if( Aluno* aluno = dynamic_cast<Aluno*>(reg) )
 		{
 			AlunoIter it = search(*aluno);
-			*it = *aluno;
+			if(it.node_ptr != 0)
+				*it = *aluno;
 		}
 		else
 			throw(RegistroIncompativelException(reg));
@@ -92,13 +93,17 @@ namespace base
 	}
 
 	Turmas::Turmas()
-		: Tabela("turmas"), turmas()
+		: Tabela("turmas"), turmas(), n(0)
 	{}
 
 	void Turmas::store(Registro* reg)
 	{
 		if( Turma* turma = dynamic_cast<Turma*>(reg) )
+		{
+			turma->setCodigo(n);
 			turmas.push_back(*turma);
+			n++;
+		}
 		else
 			throw(RegistroIncompativelException(reg));
 	}
@@ -120,6 +125,19 @@ namespace base
 		}
 		else
 			throw(RegistroIncompativelException(reg));
+	}
+
+	Turmas::TurmaIter Turmas::search(const Turma& turma)
+	{
+		if(turma.getCodigo() == -1)
+			return TurmaIter(0);
+
+		for(TurmaIter it = turmas.begin(); it != turmas.end(); it++)
+		{
+			if((*it).getCodigo() == turma.getCodigo())
+				return it;
+		}
+		return TurmaIter(0);
 	}
 
 }
