@@ -136,6 +136,18 @@ namespace base
 		virtual void sync();
 
 	private:
+		int codigo;
+
+		inline int getCodigo()
+		{
+			return codigo;
+		}
+
+		inline int setCodigo(int cod)
+		{
+			codigo = cod;
+		}
+
 		ds::list<Aluno*> alunos;
 		ds::list<Professor*> professores;
 		const Curso* curso;
@@ -178,6 +190,28 @@ namespace base
 		while(begin != end)
 		{
 			requisitos.push_back(*begin);
+			begin++;
+		}
+	}
+
+	template <class InputIterator>
+	void Turma::setProfessores(InputIterator begin, InputIterator end)
+	{
+		professores.clear();
+		while(begin != end)
+		{
+			professores.push_back(*begin);
+			begin++;
+		}
+	}
+
+	template <class InputIterator>
+	void Turma::setAlunos(InputIterator begin, InputIterator end)
+	{
+		alunos.clear();
+		while(begin != end)
+		{
+			alunos.push_back(*begin);
 			begin++;
 		}
 	}
