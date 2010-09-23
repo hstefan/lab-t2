@@ -50,5 +50,76 @@ namespace base
 			throw(RegistroIncompativelException(reg));
 	}
 
+	Cursos::Cursos()
+		: Tabela("cursos"), cursos()
+	{}
+
+	void Cursos::store(Registro* reg)
+	{
+		if( Curso* curso = dynamic_cast<Curso*>(reg) )
+			cursos.push_back(*curso);
+		else
+			throw(RegistroIncompativelException(reg));
+	}
+
+	void Cursos::remove(Registro* reg)
+	{
+		if( Curso* curso = dynamic_cast<Curso*>(reg) )
+			cursos.erase(search(*curso));
+		else
+			throw(RegistroIncompativelException(reg));
+	}
+
+	void Cursos::update(Registro* reg)
+	{
+		if( Curso* curso = dynamic_cast<Curso*>(reg) )
+		{
+			CursoIter it = search(*curso);
+			*it = *curso;
+		}
+		else
+			throw(RegistroIncompativelException(reg));
+	}
+
+	Cursos::CursoIter Cursos::search(const Curso& curso)
+	{
+		for(CursoIter it = cursos.begin(); it != cursos.end(); it++)
+		{
+			if((*it).getCodigo() == curso.getCodigo())
+				return it;
+		}
+		return CursoIter(0);
+	}
+
+	Turmas::Turmas()
+		: Tabela("turmas"), turmas()
+	{}
+
+	void Turmas::store(Registro* reg)
+	{
+		if( Turma* turma = dynamic_cast<Turma*>(reg) )
+			turmas.push_back(*turma);
+		else
+			throw(RegistroIncompativelException(reg));
+	}
+
+	void Turmas::remove(Registro* reg)
+	{
+		if( Turma* turma = dynamic_cast<Turma*>(reg) )
+			turmas.erase(search(*turma));
+		else
+			throw(RegistroIncompativelException(reg));
+	}
+
+	void Turmas::update(Registro* reg)
+	{
+		if( Turma* turma = dynamic_cast<Turma*>(reg) )
+		{
+			TurmaIter it = search(*turma);
+			*it = *turma;
+		}
+		else
+			throw(RegistroIncompativelException(reg));
+	}
 
 }
