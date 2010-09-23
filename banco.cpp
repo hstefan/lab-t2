@@ -7,6 +7,7 @@ namespace bd
 
 	Banco::~Banco()
 	{}
+
 	Banco Banco::_instance;
 
 	void Banco::registerTable(Tabela* table)
