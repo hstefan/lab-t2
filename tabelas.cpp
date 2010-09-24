@@ -100,9 +100,12 @@ namespace base
 	{
 		if( Turma* turma = dynamic_cast<Turma*>(reg) )
 		{
-			codigo++;
-			turma->setCodigoRegistro(codigo);
-			turmas.push_back(*turma);
+			if(reg->getCodigoRegistro() == reg->NAO_REGISTRADO)
+			{
+				codigo++;
+				turma->setCodigoRegistro(codigo);
+				turmas.push_back(*turma);
+			}
 		}
 		else
 			throw(RegistroIncompativelException(reg));
@@ -111,7 +114,13 @@ namespace base
 	void Turmas::remove(Registro* reg)
 	{
 		if( Turma* turma = dynamic_cast<Turma*>(reg) )
-			turmas.erase(search(*turma));
+		{
+			if(reg->getCodigoRegistro() != reg->NAO_REGISTRADO)
+			{
+				turmas.erase(search(*turma));
+				reg->setCodigoRegistro(reg->NAO_REGISTRADO);
+			}
+		}
 		else
 			throw(RegistroIncompativelException(reg));
 	}
@@ -120,8 +129,12 @@ namespace base
 	{
 		if( Turma* turma = dynamic_cast<Turma*>(reg) )
 		{
-			TurmaIter it = search(*turma);
-			*it = *turma;
+			if(reg->getCodigoRegistro() != reg->NAO_REGISTRADO)
+			{
+				TurmaIter it = search(*turma);
+				if(it.node_ptr != 0)
+					*it = *turma;
+			}
 		}
 		else
 			throw(RegistroIncompativelException(reg));
