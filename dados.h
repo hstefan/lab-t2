@@ -139,19 +139,6 @@ namespace base
 		ds::list<Aluno*> alunos;
 		ds::list<Professor*> professores;
 		const Curso* curso;
-		int codigo;
-
-		inline int getCodigo() const
-		{
-			return codigo;
-		}
-
-		inline void setCodigo(int cod)
-		{
-			codigo = cod;
-		}
-
-		friend class Turmas;
 	};
 
 	class Curso : public data::Registro

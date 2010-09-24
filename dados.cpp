@@ -237,7 +237,7 @@ namespace base
 	}
 
 	Turma::Turma(const Curso* curso, ds::list<Aluno>& alunos, ds::list<Professor>& professores)
-		: alunos(), professores(), curso(curso), Registro("turmas"), codigo(-1)
+		: alunos(), professores(), curso(curso), Registro("turmas")
 	{
 		for(ds::list<Aluno>::iterator it = alunos.begin(); it != alunos.end(); it++)
 			this->alunos.push_back(&(*it));
@@ -250,7 +250,7 @@ namespace base
 		setCurso(&turma.getCurso());
 		setAlunos(turma.getAlunosBegin(), turma.getAlunosEnd());
 		setProfessores(turma.getProfessoresBegin(), turma.getProfessoresEnd());
-		setCodigo(turma.getCodigo());
+		setCodigoRegistro(turma.getCodigoRegistro());
 		return *this;
 	}
 

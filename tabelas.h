@@ -64,7 +64,6 @@ namespace base
 		TurmaIter search(const Turma& turma);
 	private:
 		list<Turma> turmas;
-		int n;
 	};
 
 	class Cursos : public Tabela

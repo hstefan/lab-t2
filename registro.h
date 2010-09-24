@@ -11,10 +11,21 @@ namespace data
 		virtual void save() = 0;
 		virtual void erase() = 0;
 		virtual void sync() = 0;
+
+		inline void setCodigoRegistro(int cod)
+		{
+			codigo = cod;
+		}
+
+		inline int getCodigoRegistro() const
+		{
+			return codigo;
+		}
 	protected:
 		const std::string nome_tabela;
+		int codigo;
 		Registro(const std::string& tab)
-			: nome_tabela(tab)
+			: nome_tabela(tab), codigo(-1)
 		{}
 	};
 }
