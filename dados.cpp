@@ -1,5 +1,6 @@
 #include "dados.h"
 #include "banco.h"
+
 namespace base
 {
 	using bd::Banco;
