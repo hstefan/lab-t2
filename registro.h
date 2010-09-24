@@ -21,11 +21,14 @@ namespace data
 		{
 			return codigo;
 		}
+
+		static const int NAO_REGISTRADO = -1;
+
 	protected:
 		const std::string nome_tabela;
 		int codigo;
 		Registro(const std::string& tab)
-			: nome_tabela(tab), codigo(-1)
+			: nome_tabela(tab), codigo(NAO_REGISTRADO)
 		{}
 	};
 }
