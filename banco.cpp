@@ -52,7 +52,7 @@ namespace bd
 	}
 
 	Tabela::Tabela(const std::string& table_name)
-		: name(table_name)
+		: name(table_name), codigo(0)
 	{}
 
 	const std::string& Tabela::table_name() const

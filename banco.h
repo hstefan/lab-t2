@@ -19,8 +19,9 @@ namespace bd
 
 		const std::string& table_name() const;
 
-	private:
+	protected:
 		std::string name;
+		int codigo;
 	};
 
 	class Banco
