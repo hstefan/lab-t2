@@ -26,13 +26,17 @@ namespace base
 	class Alunos : public Tabela
 	{
 	public:
+		typedef list<Aluno>::iterator AlunoIter;
 		Alunos();
 		virtual void store(Registro* reg);
 		virtual void remove(Registro* reg);
 		virtual void update(Registro* reg);
 
+		Aluno* getAluno(unsigned int matricula);
+		AlunoIter begin() const;
+		AlunoIter end() const;
+
 	protected:
-		typedef list<Aluno>::iterator AlunoIter;
 		AlunoIter search(const Aluno& aluno);
 
 	private:
@@ -42,13 +46,19 @@ namespace base
 	class Professores : public Tabela
 	{
 	public:
+		typedef list<Professor>::iterator ProfIter;
 		Professores();
 		virtual void store(Registro* reg);
 		virtual void remove(Registro* reg);
 		virtual void update(Registro* reg);
-	
+		
+		Professor* getProfessor(const std::string& siape);
+		ProfIter begin() const;
+		ProfIter end() const;
+	protected:
+		ProfIter search(const Professor& prof);
 	private:
-		list<Professor> alunos;
+		list<Professor> professores;
 	};
 
 	class Turmas : public Tabela
@@ -73,8 +83,19 @@ namespace base
 		virtual void store(Registro* reg);
 		virtual void remove(Registro* reg);
 		virtual void update(Registro* reg);
-	protected:
+
+		Curso* getCurso(const std::string& codigo);
 		typedef list<Curso>::iterator CursoIter;
+
+		inline CursoIter begin()
+		{
+			return cursos.begin();
+		}
+		inline CursoIter end()
+		{
+			return cursos.end();
+		}
+	protected:
 		CursoIter search(const Curso& curso);
 	private:
 		list<Curso> cursos;

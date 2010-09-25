@@ -23,6 +23,26 @@ namespace base
 		return AlunoIter(0);
 	}
 
+	Aluno* Alunos::getAluno(unsigned int matricula)
+	{
+		for(AlunoIter it = alunos.begin(); it != alunos.end(); it++)
+		{
+			if((*it).getMatricula() == matricula)
+				return &*it;
+		}
+		return 0;
+	}
+
+	Alunos::AlunoIter Alunos::begin() const
+	{
+		return alunos.begin();
+	}
+
+	Alunos::AlunoIter Alunos::end() const
+	{
+		return alunos.end();
+	}
+
 	void Alunos::store(Registro* reg)
 	{
 		if( Aluno* aluno= dynamic_cast<Aluno*>(reg) )
@@ -86,10 +106,20 @@ namespace base
 	{
 		for(CursoIter it = cursos.begin(); it != cursos.end(); it++)
 		{
-			if((*it).getCodigo() == curso.getCodigo())
+			if((*it).getCodigoRegistro() == curso.getCodigoRegistro())
 				return it;
 		}
 		return CursoIter(0);
+	}
+
+	Curso* Cursos::getCurso(const std::string& codigo)
+	{
+		for(CursoIter it = cursos.begin(); it != cursos.end(); it++)
+		{
+			if((*it).getCodigo() == codigo)
+				return &*it;
+		}
+		return 0;
 	}
 
 	Turmas::Turmas()
@@ -153,4 +183,84 @@ namespace base
 		return TurmaIter(0);
 	}
 
+	Professores::Professores()
+		: Tabela("professores"), professores()
+	{}
+
+	Professores::ProfIter Professores::begin() const
+	{
+		return professores.begin();
+	}
+
+	Professores::ProfIter Professores::end() const
+	{
+		return professores.end();
+	}
+
+	Professor* Professores::getProfessor(const std::string& siape)
+	{
+		for(ProfIter it = professores.begin(); it != professores.end(); it++)
+		{
+			if((*it).getSiape() == siape)
+				return &*it;
+		}
+		return 0;
+	}
+
+	void Professores::store(Registro* reg)
+	{
+		if( Professor* prof = dynamic_cast<Professor*>(reg) )
+		{
+			if(reg->getCodigoRegistro() == reg->NAO_REGISTRADO)
+			{
+				codigo++;
+				prof->setCodigoRegistro(codigo);
+				professores.push_back(*prof);
+			}
+		}
+		else
+			throw(RegistroIncompativelException(reg));
+	}
+
+	void Professores::remove(Registro* reg)
+	{
+		if( Professor* prof = dynamic_cast<Professor*>(reg) )
+		{
+			if(reg->getCodigoRegistro() != reg->NAO_REGISTRADO)
+			{
+				professores.erase(search(*prof));
+				reg->setCodigoRegistro(reg->NAO_REGISTRADO);
+			}
+		}
+		else
+			throw(RegistroIncompativelException(reg));
+	}
+
+	void Professores::update(Registro* reg)
+	{
+		if( Professor* prof = dynamic_cast<Professor*>(reg) )
+		{
+			if(reg->getCodigoRegistro() != reg->NAO_REGISTRADO)
+			{
+				ProfIter it = search(*prof);
+				if(it.node_ptr != 0)
+					*it = *prof;
+			}
+		}
+		else
+			throw(RegistroIncompativelException(reg));
+	}
+
+	Professores::ProfIter Professores::search(const Professor& prof)
+	{
+		if(prof.getCodigoRegistro() == -1)
+			return ProfIter(0);
+
+		for(ProfIter it = professores.begin(); it != professores.end(); it++)
+		{
+			if((*it).getCodigoRegistro() == prof.getCodigoRegistro())
+				return it;
+		}
+		return ProfIter(0);
+	}
 }
