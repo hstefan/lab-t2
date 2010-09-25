@@ -26,9 +26,11 @@ namespace gerenc
 
 		void altera_aluno();
 		void altera_curso();
+		void altera_professor();
 
 		void lista_alunos();
 		void lista_cursos();
+		void lista_professores();
 	
 		void menu_turmas();
 		void menu_alunos();
@@ -40,6 +42,7 @@ namespace gerenc
 	private:
 		base::Alunos alunos;
 		base::Cursos cursos;
+		base::Professores professores;
 	};
 }
 

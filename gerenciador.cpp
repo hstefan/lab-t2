@@ -11,6 +11,7 @@ namespace gerenc
 	{
 		bd::Banco::getInstance().registerTable(&alunos);
 		bd::Banco::getInstance().registerTable(&cursos);
+		bd::Banco::getInstance().registerTable(&professores);
 	}
 
 	void Gerenciador::menu_inicial()
@@ -104,6 +105,7 @@ namespace gerenc
 			lista_cursos();
 			break;
 		case '5':
+			menu_inicial();
 			break;
 		default:
 			std::cout << "Opcao invalida" << std::endl;
@@ -118,6 +120,33 @@ namespace gerenc
 
 	void Gerenciador::menu_professores()
 	{
+		std::cout << "1 - Cadastrar" << std::endl << "2 - Remover" << std::endl <<"3 - Alterar" << std::endl <<
+			"4 - Listar" << std::endl << "5 - Voltar" << std::endl << "> ";
+		char op;
+		std::cin >> op;
+		std::cout << std::endl;
+		switch(op)
+		{
+		case '1':
+			cadastra_professor();
+			break;
+		case '2':
+			remove_professor();
+			break;
+		case '3':
+			altera_professor();
+			break;
+		case '4':
+			lista_professores();
+			break;
+		case '5':
+			menu_inicial();
+			break;
+		default:
+			std::cout << "Opcao invalida" << std::endl;
+			menu_professores();
+			break;
+		}
 	}
 	
 	void Gerenciador::menu_turmas()
@@ -292,5 +321,79 @@ namespace gerenc
 		for(base::Cursos::CursoIter it = cursos.begin(); it != cursos.end(); it++)
 			std::cout << (*it).getCodigo() << "\t" << (*it).getNome() << std::endl;
 		menu_cursos();
+	}
+
+	void Gerenciador::cadastra_professor()
+	{
+		std::string nome, siape, titulacao, area;
+		std::cout << "Nome: ";
+		std::cin.get();
+		std::getline(std::cin, nome);
+		std::cout << "Siape: ";
+		std::cin.get();
+		std::getline(std::cin, siape);
+		std::cout << "Titulacao: ";
+		std::cin.get();
+		std::getline(std::cin, titulacao);
+		std::cout << "Area: ";
+		std::cin.get();
+		std::getline(std::cin, area);
+		base::Professor(siape, nome, area, titulacao).save();
+	}
+
+	void Gerenciador::remove_professor()
+	{
+		std::cout << "Siape: ";
+		std::string siape;
+		std::cin.get();
+		std::getline(std::cin, siape);
+		base::Professor* prof = professores.getProfessor(siape);
+		if(prof != 0)
+			prof->erase();
+		else
+			std::cout << "Professor nao encontrado." << std::endl;
+	}
+
+	void Gerenciador::altera_professor()
+	{
+		std::cout << "Siape: ";
+		std::string siape;
+		std::cin.get();
+		std::getline(std::cin, siape);
+		base::Professor* prof = professores.getProfessor(siape);
+		if(prof != 0)
+		{
+			std::cout << "1 - Nome" << std::endl << "2 - Siape" << std::endl <<
+				"3 - Titulacao" << std::endl << "4 - Area" << std::endl;
+			char op;
+			std::cin >> op;
+			switch(op)
+			{
+			case '1':
+				std::cin.get();
+				std::getline(std::cin, siape);
+				prof->setNome(siape);
+				break;
+			case '2':
+				std::cin.get();
+				std::getline(std::cin, siape);
+				prof->setSiape(siape);
+				break;
+			case '3':
+				std::cin.get();
+				std::getline(std::cin, siape);
+				prof->setTitulacao(siape);
+				break;
+			case '4':
+				std::cin.get();
+				std::getline(std::cin, siape);
+				prof->setArea(siape);
+				break;
+			default:
+				std::cout << "Opcao invalida." << std::endl;
+			}
+		}
+		else
+			std::cout << "Professor nao encontrado." << std::endl;
 	}
 }
