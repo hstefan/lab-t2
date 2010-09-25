@@ -25,8 +25,10 @@ namespace gerenc
 		void remove_disciplina();
 
 		void altera_aluno();
+		void altera_curso();
 
-		void lista_alunos();	
+		void lista_alunos();
+		void lista_cursos();
 	
 		void menu_turmas();
 		void menu_alunos();
