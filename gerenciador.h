@@ -32,11 +32,11 @@ namespace gerenc
 		void lista_cursos();
 		void lista_professores();
 	
-		void menu_turmas();
-		void menu_alunos();
-		void menu_professores();
-		void menu_cursos();
-		void menu_disciplinas();
+		void menu_turmas(bool print_menu = true);
+		void menu_alunos(bool print_menu = true);
+		void menu_professores(bool print_menu = true);
+		void menu_cursos(bool print_menu = true);
+		void menu_disciplinas(bool print_menu = true);
 
 	
 	private:

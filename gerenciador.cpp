@@ -50,10 +50,14 @@ namespace gerenc
 		}
 	}
 
-	void Gerenciador::menu_alunos()
+	void Gerenciador::menu_alunos(bool print_menu)
 	{
-		std::cout << "1 - Cadastrar" << std::endl << "2 - Remover" << std::endl <<"3 - Alterar" <<
-			std::endl << "4 - Listar" << std::endl << "5 - Voltar" << std::endl << "> ";
+		if(print_menu)
+		{
+			std::cout << "1 - Cadastrar" << std::endl << "2 - Remover" << std::endl <<"3 - Alterar" <<
+				std::endl << "4 - Listar" << std::endl << "5 - Voltar" << std::endl;
+		}
+		std::cout << "> ";
 
 		char op;
 		std::cin >> op;
@@ -82,11 +86,14 @@ namespace gerenc
 		}
 	}
 
-	void Gerenciador::menu_cursos()
+	void Gerenciador::menu_cursos(bool print_menu)
 	{
-		std::cout << "1 - Cadastrar" << std::endl << "2 - Remover" << std::endl <<"3 - Alterar" << std::endl <<
-			"4 - Listar" << std::endl << "5 - Voltar" << std::endl << "> ";
-
+		if(print_menu)
+		{
+			std::cout << "1 - Cadastrar" << std::endl << "2 - Remover" << std::endl <<"3 - Alterar" << std::endl <<
+				"4 - Listar" << std::endl << "5 - Voltar" << std::endl;
+		}
+		std::cout << "> ";
 		char op;
 		std::cin >> op;
 		std::cout << std::endl;
@@ -109,19 +116,23 @@ namespace gerenc
 			break;
 		default:
 			std::cout << "Opcao invalida" << std::endl;
-			menu_alunos();
+			menu_cursos(false);
 			break;
 		}
 	}
 
-	void Gerenciador::menu_disciplinas()
+	void Gerenciador::menu_disciplinas(bool print_menu)
 	{
 	}
 
-	void Gerenciador::menu_professores()
+	void Gerenciador::menu_professores(bool print_menu)
 	{
-		std::cout << "1 - Cadastrar" << std::endl << "2 - Remover" << std::endl <<"3 - Alterar" << std::endl <<
-			"4 - Listar" << std::endl << "5 - Voltar" << std::endl << "> ";
+		if(print_menu)
+		{
+			std::cout << "1 - Cadastrar" << std::endl << "2 - Remover" << std::endl <<"3 - Alterar" << std::endl <<
+				"4 - Listar" << std::endl << "5 - Voltar" << std::endl;
+		}
+		std::cout << "> ";
 		char op;
 		std::cin >> op;
 		std::cout << std::endl;
@@ -144,12 +155,12 @@ namespace gerenc
 			break;
 		default:
 			std::cout << "Opcao invalida" << std::endl;
-			menu_professores();
+			menu_professores(false);
 			break;
 		}
 	}
 	
-	void Gerenciador::menu_turmas()
+	void Gerenciador::menu_turmas(bool print_menu)
 	{
 	}
 
@@ -172,7 +183,7 @@ namespace gerenc
 		}
 
 		base::Aluno(curso, matricula, nome).save();
-		menu_alunos();
+		menu_alunos(false);
 	}
 
 	void Gerenciador::remove_aluno()
@@ -190,7 +201,7 @@ namespace gerenc
 		}
 		else
 			std::cout << "Aluno nao encontrado" << std::endl;
-		menu_alunos();
+		menu_alunos(false);
 	}
 
 	void Gerenciador::altera_aluno()
@@ -236,14 +247,14 @@ namespace gerenc
 		}
 		else
 			std::cout << "Aluno nao encontrado" << std::endl;
-		menu_alunos();
+		menu_alunos(false);
 	}
 
 	void Gerenciador::lista_alunos()
 	{
 		for(base::Alunos::AlunoIter it = alunos.begin(); it != alunos.end(); it++)
 			std::cout << (*it).getMatricula()  << "\t" << (*it).getNome() << std::endl;
-		menu_alunos();
+		menu_alunos(false);
 	}
 
 	void Gerenciador::cadastra_curso()
@@ -256,6 +267,7 @@ namespace gerenc
 		std::cin.get();
 		std::getline(std::cin, nome);
 		base::Curso(cod, nome).save();
+		menu_cursos(false);
 	}
 
 	void Gerenciador::remove_curso()
@@ -274,6 +286,7 @@ namespace gerenc
 			curso->erase();
 		else
 			std::cout << "Curso nao encontrado" << std::endl;
+		menu_cursos(false);
 	}
 
 	void Gerenciador::altera_curso()
@@ -313,14 +326,14 @@ namespace gerenc
 		}
 		else
 			std::cout << "Curso nao encontrado" << std::endl;
-		menu_cursos();
+		menu_cursos(false);
 	}
 
 	void Gerenciador::lista_cursos()
 	{
 		for(base::Cursos::CursoIter it = cursos.begin(); it != cursos.end(); it++)
 			std::cout << (*it).getCodigo() << "\t" << (*it).getNome() << std::endl;
-		menu_cursos();
+		menu_cursos(false);
 	}
 
 	void Gerenciador::cadastra_professor()
@@ -339,6 +352,7 @@ namespace gerenc
 		std::cin.get();
 		std::getline(std::cin, area);
 		base::Professor(siape, nome, area, titulacao).save();
+		menu_professores(false);
 	}
 
 	void Gerenciador::remove_professor()
@@ -352,6 +366,7 @@ namespace gerenc
 			prof->erase();
 		else
 			std::cout << "Professor nao encontrado." << std::endl;
+		menu_professores(false);
 	}
 
 	void Gerenciador::altera_professor()
@@ -395,5 +410,16 @@ namespace gerenc
 		}
 		else
 			std::cout << "Professor nao encontrado." << std::endl;
+		menu_professores(false);
+	}
+
+	void Gerenciador::lista_professores()
+	{
+		for(base::Professores::ProfIter it = professores.begin(); it != professores.end(); it++)
+		{
+			std::cout << (*it).getSiape() << "\t" << (*it).getNome() << "\t" << (*it).getTitulacao() 
+				<< "\t" << (*it).getArea() << std::endl;
+		}
+		menu_professores(false);
 	}
 }
