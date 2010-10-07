@@ -80,9 +80,9 @@ namespace base
 	{
 	public:
 		Cursos();
-		virtual void store(Registro* reg);
-		virtual void remove(Registro* reg);
-		virtual void update(Registro* reg);
+		void store(Registro* reg);
+		void remove(Registro* reg);
+		void update(Registro* reg);
 
 		Curso* getCurso(const std::string& codigo);
 		typedef list<Curso>::iterator CursoIter;
@@ -99,6 +99,34 @@ namespace base
 		CursoIter search(const Curso& curso);
 	private:
 		list<Curso> cursos;
+	};
+
+	class Disciplinas : public Tabela
+	{
+	public:
+		Disciplinas();
+		void store(Registro* reg);
+		void remove(Registro* reg);
+		void update(Registro* reg);
+
+		Disciplina* getDisciplina(const std::string& cod_disc, const std::string& cod_curso);
+
+		typedef list<Disciplina>::iterator DisciplinaIter;
+
+		inline DisciplinaIter begin() const
+		{
+			return disciplinas.begin();
+		}
+
+		inline DisciplinaIter end() const
+		{
+			return disciplinas.end();
+		}
+
+	protected:
+		DisciplinaIter search(const Disciplina& disc);
+	private:
+		list<Disciplina> disciplinas;
 	};
 }
 

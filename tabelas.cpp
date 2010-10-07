@@ -263,4 +263,80 @@ namespace base
 		}
 		return ProfIter(0);
 	}
+
+#define DSC Disciplinas
+#define DSC_CAST dynamic_cast<Disciplina*>
+
+	DSC::Disciplinas()
+		: Tabela("disciplinas")
+	{}
+
+	void DSC::store(Registro *reg)
+	{
+		if(Disciplina* d = DSC_CAST(reg))
+		{
+			if(reg->getCodigoRegistro() == reg->NAO_REGISTRADO)
+			{
+				reg->setCodigoRegistro(++codigo);
+				disciplinas.push_back(*d);
+			}
+		}
+		else
+			throw(RegistroIncompativelException(reg));
+	}
+
+	void DSC::remove(Registro *reg)
+	{
+		if(Disciplina* d = DSC_CAST(reg))
+		{
+			if(reg->getCodigoRegistro() != reg->NAO_REGISTRADO)
+			{
+				disciplinas.erase(search(d->getCodigo(), d->getCurso().getCodigo()));
+				reg->setCodigoRegistro(reg->NAO_REGISTRADO);
+			}
+		}
+		else
+			throw(RegistroIncompativelException(reg));
+	}
+
+	void DSC::update(Registro* reg)
+	{
+		if(Disciplina* d = DSC_CAST(reg))
+		{
+			if(reg->getCodigoRegistro() != reg->NAO_REGISTRADO)
+			{
+				DisciplinaIter it = search(*d);
+				Disciplina& me = *it;
+				me.setCarga(d->getCarga());
+				me.setCodigo(d->getCodigo());
+				me.setCurso(&d->getCurso());
+				me.setNome(d->getNome());
+				me.setRequisitos(d->getRequisitosBeginIter(), d->getRequisitosEndIter());
+			}
+		}
+		else
+			throw(RegistroIncompativelException(reg));
+	}
+
+	Disciplina* DSC::getDisciplina(const std::string& cod_disc, const std::string& cod_curso)
+	{
+		for(DisciplinaIter it = disciplinas.begin(); it != disciplinas.end(); it++)
+		{
+			if((*it).getCodigo() == cod_disc && (*it).getCurso().getCodigo() == cod_curso)
+				return &(*it);
+		}
+		return 0;
+	}
+
+	DSC::DisciplinaIter DSC::search(const Disciplina& disc)
+	{
+		for(DisciplinaIter it = disciplinas.begin(); it != disciplinas.end(); it++)
+		{
+			if((*it).getCodigoRegistro() == disc.getCodigoRegistro())
+				return it;
+		}
+
+		return DisciplinaIter(0);
+	}
+	
 }
