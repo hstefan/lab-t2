@@ -166,10 +166,10 @@ namespace gerenc
 
 	void Gerenciador::cadastra_aluno()
 	{
+		std::cin.get();
 		unsigned int matricula;
 		std::string nome, codigo;
 		std::cout << "Nome: ";
-		std::cin.get();
 		std::getline(std::cin, nome);
 		std::cout << "Matricula: ";
 		std::cin >> matricula;
@@ -218,11 +218,11 @@ namespace gerenc
 			std::cin >> op;
 			std::string nome;
 			unsigned int matricula;
+			std::cin.get();
 			switch (op)
 			{
 			case 1:
-				std::cout << "Novo nome: ";
-				std::cin.get();
+				std::cout << "Novo nome: ";				
 				std::getline(std::cin, nome);
 				aluno->setNome(nome);
 				break;
@@ -237,7 +237,6 @@ namespace gerenc
 				if(op == 's' || op == 'S')
 					lista_cursos();
 				std::cout << "Codigo do curso: " << std::endl;
-				std::cin.get();
 				std::getline(std::cin, codigo);
 				aluno->setCurso(cursos.getCurso(codigo));
 				break;
@@ -264,7 +263,6 @@ namespace gerenc
 		std::cin.get();
 		std::getline(std::cin, cod);
 		std::cout << "Nome: ";
-		std::cin.get();
 		std::getline(std::cin, nome);
 		base::Curso(cod, nome).save();
 		menu_cursos(false);
@@ -272,11 +270,6 @@ namespace gerenc
 
 	void Gerenciador::remove_curso()
 	{
-		std::cout << "Listar cursos? (s/n)" << std::endl;
-		char op;
-		std::cin >> op;
-		if(op == 's' || op == 'n')
-			lista_cursos();
 		std::cout << "Codigo: ";
 		std::string codigo;
 		std::cin.get();
@@ -291,11 +284,6 @@ namespace gerenc
 
 	void Gerenciador::altera_curso()
 	{
-		std::cout << "Listar cursos? (s/n)" << std::endl;
-		char op;
-		std::cin >> op;
-		if(op == 's' || op == 'n')
-			lista_cursos();
 		std::cout << "Codigo: " << std::endl;
 		std::string cod;
 		std::cin.get();
@@ -343,13 +331,10 @@ namespace gerenc
 		std::cin.get();
 		std::getline(std::cin, nome);
 		std::cout << "Siape: ";
-		std::cin.get();
 		std::getline(std::cin, siape);
 		std::cout << "Titulacao: ";
-		std::cin.get();
 		std::getline(std::cin, titulacao);
 		std::cout << "Area: ";
-		std::cin.get();
 		std::getline(std::cin, area);
 		base::Professor(siape, nome, area, titulacao).save();
 		menu_professores(false);
@@ -371,36 +356,38 @@ namespace gerenc
 
 	void Gerenciador::altera_professor()
 	{
+		std::cin.get();
 		std::cout << "Siape: ";
 		std::string siape;
-		std::cin.get();
 		std::getline(std::cin, siape);
 		base::Professor* prof = professores.getProfessor(siape);
 		if(prof != 0)
 		{
 			std::cout << "1 - Nome" << std::endl << "2 - Siape" << std::endl <<
 				"3 - Titulacao" << std::endl << "4 - Area" << std::endl;
+			std::cout << "> ";
 			char op;
 			std::cin >> op;
+			std::cin.get();
 			switch(op)
 			{
 			case '1':
-				std::cin.get();
+				std::cout << "Novo nome: ";
 				std::getline(std::cin, siape);
 				prof->setNome(siape);
 				break;
 			case '2':
-				std::cin.get();
+				std::cout << "Novo siape: ";
 				std::getline(std::cin, siape);
 				prof->setSiape(siape);
 				break;
 			case '3':
-				std::cin.get();
+				std::cout << "Nova titulacao: ";
 				std::getline(std::cin, siape);
 				prof->setTitulacao(siape);
 				break;
 			case '4':
-				std::cin.get();
+				std::cout << "Nova area: ";
 				std::getline(std::cin, siape);
 				prof->setArea(siape);
 				break;
