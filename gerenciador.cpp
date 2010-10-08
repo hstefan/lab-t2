@@ -494,6 +494,8 @@ namespace gerenc
 		char op;
 		std::cin >> op;
 		std::cin.clear();
+		base::Curso* c = 0;
+		base::Disciplina* req = 0;
 		switch(op)
 		{
 		case '1':
@@ -514,7 +516,7 @@ namespace gerenc
 			std::cin.clear();
 			std::cout << "Novo curso (codigo): ";
 			std::getline(std::cin, cod_disc);
-			base::Curso* c = cursos.getCurso(cod_disc);
+			c = cursos.getCurso(cod_disc);
 			if(c != 0)
 				disc->setCurso(c);
 			else
@@ -535,7 +537,7 @@ namespace gerenc
 			std::cin.clear();
 			std::cout << "Codigo da disciplina: " << std::endl;
 			std::getline(std::cin, cod_disc);
-			base::Disciplina* req = disciplinas.getDisciplina(cod_disc, disc->getCurso().getCodigo());
+			req = disciplinas.getDisciplina(cod_disc, disc->getCurso().getCodigo());
 			if(req == 0)
 			{
 				std::cout << "Disciplina nao encontrada :|" << std::endl;
