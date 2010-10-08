@@ -291,7 +291,7 @@ namespace base
 		{
 			if(reg->getCodigoRegistro() != reg->NAO_REGISTRADO)
 			{
-				disciplinas.erase(search(d->getCodigo(), d->getCurso().getCodigo()));
+				disciplinas.erase(search(*d));
 				reg->setCodigoRegistro(reg->NAO_REGISTRADO);
 			}
 		}
