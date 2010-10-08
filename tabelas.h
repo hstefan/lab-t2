@@ -64,13 +64,23 @@ namespace base
 	class Turmas : public Tabela
 	{
 	public:
+		typedef list<Turma>::iterator TurmaIter;
 		Turmas();
 		virtual void store(Registro* reg);
 		virtual void remove(Registro* reg);
 		virtual void update(Registro* reg);
-	
+		
+		inline TurmaIter begin() const
+		{
+			return turmas.begin();
+		}
+		inline TurmaIter end() const
+		{
+			return turmas.end();
+		}
+
+		Turma* getTurma(const std::string& cod_curso, const std::string& cod_turma);
 	protected:
-		typedef list<Turma>::iterator TurmaIter;
 		TurmaIter search(const Turma& turma);
 	private:
 		list<Turma> turmas;

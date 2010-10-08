@@ -13,6 +13,7 @@ namespace gerenc
 		bd::Banco::getInstance().registerTable(&cursos);
 		bd::Banco::getInstance().registerTable(&professores);
 		bd::Banco::getInstance().registerTable(&disciplinas);
+		bd::Banco::getInstance().registerTable(&turmas);
 	}
 
 	void Gerenciador::menu_inicial()
@@ -193,11 +194,88 @@ namespace gerenc
 	
 	void Gerenciador::menu_turmas(bool print_menu)
 	{
+		if(print_menu)
+		{ 
+			std::cout << "1 - Cadastrar" << std::endl << "2 - Remover" << std::endl << "3 - Alterar"
+				<< std::endl << "4 - Voltar" << std::endl;
+		}
+		std::cout << "> ";
+		char op;
+		std::cin >> op;
+		std::cin.ignore();
+		switch(op)
+		{
+		case '1':
+			cadastra_turma();
+			break;
+		case '2':
+			remove_turma();
+			break;
+		case '3':
+			altera_turma();
+			break;
+		case '4':
+			menu_inicial();
+			break;
+		default:
+			std::cout << "Opcao invalida." << std::endl;
+		}
+		menu_turmas(false);
+	}
+	
+	void Gerenciador::remove_turma()
+	{
+		std::string cod_cu, cod_tu;
+		std::cin.ignore();
+		std::cout << "Codigo do curso: ";
+		std::getline(std::cin, cod_cu);
+		std::cout << "Codigo da turma: ";
+		std::getline(std::cin, cod_tu);
+		base::Turma* t = turmas.getTurma(cod_cu, cod_tu);
+		if(t == 0)
+			t->erase();
+		else
+			std::cout << "Turma nao encontrada, abortando operacao." << std::endl;
+		menu_turmas(false);
+	}
+
+	void Gerenciador::cadastra_turma()
+	{
+		std::cin.ignore();
+		std::cout << "Lista cursos? (s/n)" << std::endl;
+		char op;
+		std::cin >> op;
+		if(op == 's' || op == 'S')
+			lista_cursos();
+
+		std::cout << "Codigo do curso: " << std::endl;
+		std::string cod;
+		std::cin.ignore();
+		std::getline(std::cin, cod);
+		base::Curso* c = cursos.getCurso(cod);
+		if(c != 0)
+		{
+			std::cout << "Codigo da disciplina: " << std::endl;
+			std::cin.ignore();
+			std::getline(std::cin, cod);
+			base::Turma t(c, cod);
+			t.save();
+			std::cout << "Turma criada com sucesso." << std::endl <<
+				"Para adcinar professores e alunos a turma acesse o menu 'alterar'" << std::endl;
+		}
+		else
+			std::cout << "Curso nao encontrado." << std::endl;
+		menu_turmas(false);
+	}
+
+	void Gerenciador::altera_turma()
+	{
+		std::cout << "fuck this shit, Im out of here." << std::endl;
 	}
 
 	void Gerenciador::cadastra_aluno()
 	{
-		std::cin.get();
+		std::cin.ignore();
 		unsigned int matricula;
 		std::string nome, codigo;
 		std::cout << "Nome: ";
@@ -211,8 +289,8 @@ namespace gerenc
 		if(curso == 0)
 		{
 			std::cout << "Curso inexistente, abortando operacao." << std::endl;
+			menu_alunos(false);
 		}
-
 		base::Aluno(curso, matricula, nome).save();
 		menu_alunos(false);
 	}
@@ -249,20 +327,20 @@ namespace gerenc
 			std::cin >> op;
 			std::string nome;
 			unsigned int matricula;
-			std::cin.get();
+			std::cin.ignore();
 			switch (op)
 			{
-			case 1:
+			case '2':
 				std::cout << "Novo nome: ";				
 				std::getline(std::cin, nome);
 				aluno->setNome(nome);
 				break;
-			case 2:
+			case '1':
 				std::cout << "Nova Matricula: ";
 				std::cin >> matricula;
 				aluno->setMatricula(matricula);
 				break;
-			case 3:
+			case '3':
 				std::cout << "Lista cursos? (s/n)" << std::endl << "> ";
 				std::cin >> op;
 				if(op == 's' || op == 'S')
@@ -291,7 +369,7 @@ namespace gerenc
 	{
 		std::string cod, nome;
 		std::cout << "Codigo: ";
-		std::cin.get();
+		std::cin.ignore();
 		std::getline(std::cin, cod);
 		std::cout << "Nome: ";
 		std::getline(std::cin, nome);
@@ -303,7 +381,7 @@ namespace gerenc
 	{
 		std::cout << "Codigo: ";
 		std::string codigo;
-		std::cin.get();
+		std::cin.ignore();
 		std::getline(std::cin, codigo);
 		base::Curso* curso = cursos.getCurso(codigo);
 		if(curso != 0)
@@ -317,7 +395,7 @@ namespace gerenc
 	{
 		std::cout << "Codigo: " << std::endl;
 		std::string cod;
-		std::cin.get();
+		std::cin.ignore();
 		std::getline(std::cin, cod);
 		base::Curso* curso = cursos.getCurso(cod);
 		if(curso != 0)
@@ -329,13 +407,13 @@ namespace gerenc
 			{
 			case '1':
 				std::cout << "Novo codigo: ";
-				std::cin.get();
+				std::cin.ignore();
 				std::getline(std::cin, cod);
 				curso->setCodigo(cod);
 				break;
 			case '2':
 				std::cout << "Novo nome: ";
-				std::cin.get();
+				std::cin.ignore();
 				std::getline(std::cin, cod);
 				curso->setNome(cod);
 				break;
@@ -359,7 +437,7 @@ namespace gerenc
 	{
 		std::string nome, siape, titulacao, area;
 		std::cout << "Nome: ";
-		std::cin.get();
+		std::cin.ignore();
 		std::getline(std::cin, nome);
 		std::cout << "Siape: ";
 		std::getline(std::cin, siape);
@@ -373,9 +451,11 @@ namespace gerenc
 
 	void Gerenciador::remove_professor()
 	{
+
+
 		std::cout << "Siape: ";
 		std::string siape;
-		std::cin.get();
+		std::cin.ignore();
 		std::getline(std::cin, siape);
 		base::Professor* prof = professores.getProfessor(siape);
 		if(prof != 0)
@@ -387,7 +467,7 @@ namespace gerenc
 
 	void Gerenciador::altera_professor()
 	{
-		std::cin.get();
+		std::cin.ignore();
 		std::cout << "Siape: ";
 		std::string siape;
 		std::getline(std::cin, siape);
@@ -399,7 +479,7 @@ namespace gerenc
 			std::cout << "> ";
 			char op;
 			std::cin >> op;
-			std::cin.get();
+			std::cin.ignore();
 			switch(op)
 			{
 			case '1':
@@ -443,7 +523,7 @@ namespace gerenc
 	
 	void Gerenciador::cadastra_disciplina()
 	{
-		std::cin.get();
+		std::cin.ignore();
 		std::string cod_disc, cod_curso, nome;
 		std::cout << "Codigo da disciplina: ";
 		std::getline(std::cin, cod_disc);
@@ -452,7 +532,7 @@ namespace gerenc
 		std::cin >> op;
 		if(op == 's' || op == 'S')
 			lista_cursos();
-		std::cin.get();
+		std::cin.ignore();
 		std::cout << "Codigo do curso: ";
 		std::getline(std::cin, cod_curso);
 		base::Curso* c = cursos.getCurso(cod_curso);
@@ -476,7 +556,7 @@ namespace gerenc
 
 	void Gerenciador::altera_disciplina()
 	{
-		std::cin.clear();
+		std::cin.ignore();
 		std::string cod_disc, cod_curso;
 		std::cout << "Codigo da disciplina: ";
 		std::getline(std::cin, cod_disc);
@@ -493,7 +573,7 @@ namespace gerenc
 			<< "4 - Alterar carga horaria" << std::endl << "5 - Alterar requisitos" << std::endl << "> ";
 		char op;
 		std::cin >> op;
-		std::cin.clear();
+		std::cin.ignore();
 		base::Curso* c = 0;
 		base::Disciplina* req = 0;
 		switch(op)
@@ -513,7 +593,7 @@ namespace gerenc
 			std::cin >> op;
 			if(op == 's' || op == 'S')
 				lista_cursos();
-			std::cin.clear();
+			std::cin.ignore();
 			std::cout << "Novo curso (codigo): ";
 			std::getline(std::cin, cod_disc);
 			c = cursos.getCurso(cod_disc);
@@ -526,7 +606,7 @@ namespace gerenc
 			std::cout << "Nova carga horaria: ";
 			unsigned int carga;
 			std::cin >> carga;
-			std::cin.clear();
+			std::cin.ignore();
 			disc->setCarga(carga);
 			break;
 		case '5':
@@ -534,7 +614,7 @@ namespace gerenc
 			menu_disc:
 			std::cout << "> ";
 			std::cin >> op;
-			std::cin.clear();
+			std::cin.ignore();
 			std::cout << "Codigo da disciplina: " << std::endl;
 			std::getline(std::cin, cod_disc);
 			req = disciplinas.getDisciplina(cod_disc, disc->getCurso().getCodigo());
@@ -570,7 +650,7 @@ namespace gerenc
 
 	void Gerenciador::remove_disciplina()
 	{
-		std::cin.clear();
+		std::cin.ignore();
 		std::string cod_curso, cod_disc;
 		std::cout << "Digite o codigo do curso: ";
 		std::getline(std::cin, cod_curso);
