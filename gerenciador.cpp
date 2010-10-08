@@ -593,4 +593,4 @@ namespace gerenc
 			std::cout << (*it).getCodigo() << "\t" << (*it).getNome() << "\t" << (*it).getCarga() << "\t" << (*it).getCurso().getNome() << std::endl;
 		menu_disciplinas();
 	}
-}
+} 
