@@ -12,6 +12,7 @@ namespace gerenc
 		bd::Banco::getInstance().registerTable(&alunos);
 		bd::Banco::getInstance().registerTable(&cursos);
 		bd::Banco::getInstance().registerTable(&professores);
+		bd::Banco::getInstance().registerTable(&disciplinas);
 	}
 
 	void Gerenciador::menu_inicial()
@@ -123,6 +124,36 @@ namespace gerenc
 
 	void Gerenciador::menu_disciplinas(bool print_menu)
 	{
+		if(print_menu)
+		{
+			std::cout << "1 - Cadastrar" << std::endl << "2 - Remover" << std::endl <<"3 - Alterar" << std::endl <<
+				"4 - Listar" << std::endl << "5 - Voltar" << std::endl;
+
+		}
+		std::cout << "> ";
+		char op;
+		std::cin >> op;
+		switch(op)
+		{
+		case '1':
+			cadastra_disciplina();
+			break;
+		case '2':
+			remove_disciplina();
+			break;
+		case '3':
+			altera_disciplina();
+			break;
+		case '4':
+			lista_disciplinas();
+			break;
+		case '5':
+			menu_inicial();
+			break;
+		default:
+			std::cout << "Opcao invalida." << std::endl;
+			menu_disciplinas(false);
+		}
 	}
 
 	void Gerenciador::menu_professores(bool print_menu)
@@ -408,5 +439,156 @@ namespace gerenc
 				<< "\t" << (*it).getArea() << std::endl;
 		}
 		menu_professores(false);
+	}
+	
+	void Gerenciador::cadastra_disciplina()
+	{
+		std::cin.get();
+		std::string cod_disc, cod_curso, nome;
+		std::cout << "Codigo da disciplina: ";
+		std::getline(std::cin, cod_disc);
+		std::cout << "Listar cursos existentes? (s/n) " ;
+		char op;
+		std::cin >> op;
+		if(op == 's' || op == 'S')
+			lista_cursos();
+		std::cin.get();
+		std::cout << "Codigo do curso: ";
+		std::getline(std::cin, cod_curso);
+		base::Curso* c = cursos.getCurso(cod_curso);
+		if(c == 0)
+		{
+			std::cout << "Curso nao encontrado, abortando." << std::endl;
+			menu_disciplinas(false);
+			return;
+		}
+		std::cout << "Nome da disciplina: ";
+		std::getline(std::cin, nome);
+		unsigned int carga;
+		std::cout << "Carga horaria: ";
+		std::cin >> carga;
+
+		base::Disciplina(cod_disc, c, nome, carga).save();
+		std::cout << "Por padrao, turmas sao criadas sem nenhum requisito, caso deseje adcionar algum utilize a operacao 'Alterar Disciplina'" 
+			<< std::endl;
+		menu_disciplinas(false);
+	}
+
+	void Gerenciador::altera_disciplina()
+	{
+		std::cin.clear();
+		std::string cod_disc, cod_curso;
+		std::cout << "Codigo da disciplina: ";
+		std::getline(std::cin, cod_disc);
+		std::cout << "Codigo do curso: ";
+		std::getline(std::cin, cod_curso);
+		base::Disciplina* disc = disciplinas.getDisciplina(cod_disc, cod_curso);
+		if(disc == 0)
+		{
+			std::cout << "Disciplina nao encontrada :(" << std::endl;
+			return;
+		}
+
+		std::cout << "1 - Alterar codigo" << std::endl << "2 - Alterar nome" << std::endl << "3 - Alterar curso" << std::endl
+			<< "4 - Alterar carga horaria" << std::endl << "5 - Alterar requisitos" << std::endl << "> ";
+		char op;
+		std::cin >> op;
+		std::cin.clear();
+		switch(op)
+		{
+		case '1':
+			std::cout << "Novo codigo: ";
+			std::getline(std::cin, cod_disc);
+			disc->setCodigo(cod_disc);
+			break;
+		case '2':
+			std::cout << "Novo nome: ";
+			std::getline(std::cin, cod_disc);
+			disc->setNome(cod_disc);
+			break;
+		case '3':
+			std::cout << "Listar cursos antes? (s/n)" << std::endl;
+			std::cin >> op;
+			if(op == 's' || op == 'S')
+				lista_cursos();
+			std::cin.clear();
+			std::cout << "Novo curso (codigo): ";
+			std::getline(std::cin, cod_disc);
+			base::Curso* c = cursos.getCurso(cod_disc);
+			if(c != 0)
+				disc->setCurso(c);
+			else
+				std::cout << "Curso nao encontrado, nao foi realizada nenhuma alteracao." << std::endl;
+			break;
+		case '4':
+			std::cout << "Nova carga horaria: ";
+			unsigned int carga;
+			std::cin >> carga;
+			std::cin.clear();
+			disc->setCarga(carga);
+			break;
+		case '5':
+			std::cout << "1 - Remover" << std::endl << "2 - Adcionar" << "3 - Voltar" << std::endl;
+			menu_disc:
+			std::cout << "> ";
+			std::cin >> op;
+			std::cin.clear();
+			std::cout << "Codigo da disciplina: " << std::endl;
+			std::getline(std::cin, cod_disc);
+			base::Disciplina* req = disciplinas.getDisciplina(cod_disc, disc->getCurso().getCodigo());
+			if(req == 0)
+			{
+				std::cout << "Disciplina nao encontrada :|" << std::endl;
+				goto menu_disc;
+			}
+
+			switch(op)
+			{
+			case '1':
+				disc->adcionaRequisito(req);
+				break;
+			case '2':
+				break;
+			case '3':
+				disc->removeRequisito(req);
+				menu_disciplinas();
+				break;
+			default:
+				std::cout << "Opcao invalida." << std::endl;
+				goto menu_disc;
+				break;
+			}
+			break;
+		default:
+			std::cout << "Opcao invalida" << std::endl;
+			break;
+		}
+		menu_disciplinas();
+	}
+
+	void Gerenciador::remove_disciplina()
+	{
+		std::cin.clear();
+		std::string cod_curso, cod_disc;
+		std::cout << "Digite o codigo do curso: ";
+		std::getline(std::cin, cod_curso);
+		std::cout << "Digite o codigo da disciplina: ";
+		std::getline(std::cin, cod_disc);
+		base::Disciplina* disc = disciplinas.getDisciplina(cod_disc, cod_curso);
+		if(disc != 0)
+			disc->erase();
+		else
+		{
+			std::cout << "Disciplina nao entrada." << std::endl;
+			remove_disciplina();
+		}
+		menu_disciplinas();
+	}
+
+	void Gerenciador::lista_disciplinas()
+	{
+		for(base::Disciplinas::DisciplinaIter it = disciplinas.begin(); it != disciplinas.end(); it++)
+			std::cout << (*it).getCodigo() << "\t" << (*it).getNome() << "\t" << (*it).getCarga() << "\t" << (*it).getCurso().getNome() << std::endl;
+		menu_disciplinas();
 	}
 }
