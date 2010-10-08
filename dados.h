@@ -109,7 +109,8 @@ namespace base
 		typedef ds::list<Aluno*>::iterator AlunosIter;
 		typedef ds::list<Professor*>::iterator ProfessoresIter;
 		
-		Turma(const Curso* curso, ds::list<Aluno>& alunos = ds::list<Aluno>(), ds::list<Professor>& professores = ds::list<Professor>());
+		Turma(const Curso* curso, const std::string& cod_curso, 
+			ds::list<Aluno>& alunos = ds::list<Aluno>(), ds::list<Professor>& professores = ds::list<Professor>());
 		Turma& operator=(const Turma& turma);
 
 		AlunosIter getAlunosBegin() const;
@@ -117,6 +118,7 @@ namespace base
 		ProfessoresIter getProfessoresBegin() const;
 		ProfessoresIter getProfessoresEnd() const;
 		const Curso& getCurso() const;
+		std::string getCodigo() const;
 
 		template <class InputIterator>
 		  void setAlunos(InputIterator begin, InputIterator end);
@@ -125,7 +127,7 @@ namespace base
 		  void setProfessores(InputIterator begin, InputIterator end);
 
 		void setCurso(const Curso* curso);
-
+		void setCodigo(const std::string& cod);
 		void adcionaAluno(Aluno* aluno);
 		void adcionaProfessor(Professor* professor);
 		void removerAluno(AlunosIter aluno);
@@ -139,6 +141,7 @@ namespace base
 		ds::list<Aluno*> alunos;
 		ds::list<Professor*> professores;
 		const Curso* curso;
+		std::string cod_turma;
 	};
 
 	class Curso : public data::Registro

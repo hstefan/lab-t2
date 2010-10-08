@@ -237,8 +237,8 @@ namespace base
 		requisitos.erase(disciplina);
 	}
 
-	Turma::Turma(const Curso* curso, ds::list<Aluno>& alunos, ds::list<Professor>& professores)
-		: alunos(), professores(), curso(curso), Registro("turmas")
+	Turma::Turma(const Curso* curso, const std::string& cod, ds::list<Aluno>& alunos, ds::list<Professor>& professores)
+		: alunos(), professores(), curso(curso), Registro("turmas"), cod_turma(cod)
 	{
 		for(ds::list<Aluno>::iterator it = alunos.begin(); it != alunos.end(); it++)
 			this->alunos.push_back(&(*it));
@@ -252,7 +252,13 @@ namespace base
 		setAlunos(turma.getAlunosBegin(), turma.getAlunosEnd());
 		setProfessores(turma.getProfessoresBegin(), turma.getProfessoresEnd());
 		setCodigoRegistro(turma.getCodigoRegistro());
+		setCodigo(turma.getCodigo());
 		return *this;
+	}
+
+	std::string Turma::getCodigo() const
+	{
+		return cod_turma;
 	}
 
 	Turma::AlunosIter Turma::getAlunosBegin() const
@@ -273,6 +279,11 @@ namespace base
 	Turma::ProfessoresIter Turma::getProfessoresEnd() const
 	{
 		return professores.end();
+	}
+
+	void Turma::setCodigo(const std::string& cod)
+	{
+		cod_turma = cod;
 	}
 
 	const Curso& Turma::getCurso() const
