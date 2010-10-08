@@ -48,6 +48,7 @@ namespace gerenc
 		base::Cursos cursos;
 		base::Professores professores;
 		base::Disciplinas disciplinas;
+		base::Turmas turmas;
 	};
 }
 

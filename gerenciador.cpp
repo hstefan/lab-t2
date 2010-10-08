@@ -13,6 +13,7 @@ namespace gerenc
 		bd::Banco::getInstance().registerTable(&cursos);
 		bd::Banco::getInstance().registerTable(&professores);
 		bd::Banco::getInstance().registerTable(&disciplinas);
+		bd::Banco::getInstance().registerTable(&turmas);
 	}
 
 	void Gerenciador::menu_inicial()
@@ -193,6 +194,83 @@ namespace gerenc
 	
 	void Gerenciador::menu_turmas(bool print_menu)
 	{
+		if(print_menu)
+		{ 
+			std::cout << "1 - Cadastrar" << std::endl << "2 - Remover" << std::endl << "3 - Alterar"
+				<< std::endl << "4 - Voltar" << std::endl;
+		}
+		std::cout << "> ";
+		char op;
+		std::cin >> op;
+		std::cin.ignore();
+		switch(op)
+		{
+		case '1':
+			cadastra_turma();
+			break;
+		case '2':
+			remove_turma();
+			break;
+		case '3':
+			altera_turma();
+			break;
+		case '4':
+			menu_inicial();
+			break;
+		default:
+			std::cout << "Opcao invalida." << std::endl;
+		}
+		menu_turmas(false);
+	}
+	
+	void Gerenciador::remove_turma()
+	{
+		std::string cod_cu, cod_tu;
+		std::cin.ignore();
+		std::cout << "Codigo do curso: ";
+		std::getline(std::cin, cod_cu);
+		std::cout << "Codigo da turma: ";
+		std::getline(std::cin, cod_tu);
+		base::Turma* t = turmas.getTurma(cod_cu, cod_tu);
+		if(t == 0)
+			t->erase();
+		else
+			std::cout << "Turma nao encontrada, abortando operacao." << std::endl;
+		menu_turmas(false);
+	}
+
+	void Gerenciador::cadastra_turma()
+	{
+		std::cin.ignore();
+		std::cout << "Lista cursos? (s/n)" << std::endl;
+		char op;
+		std::cin >> op;
+		if(op == 's' || op == 'S')
+			lista_cursos();
+
+		std::cout << "Codigo do curso: " << std::endl;
+		std::string cod;
+		std::cin.ignore();
+		std::getline(std::cin, cod);
+		base::Curso* c = cursos.getCurso(cod);
+		if(c != 0)
+		{
+			std::cout << "Codigo da disciplina: " << std::endl;
+			std::cin.ignore();
+			std::getline(std::cin, cod);
+			base::Turma t(c, cod);
+			t.save();
+			std::cout << "Turma criada com sucesso." << std::endl <<
+				"Para adcinar professores e alunos a turma acesse o menu 'alterar'" << std::endl;
+		}
+		else
+			std::cout << "Curso nao encontrado." << std::endl;
+		menu_turmas(false);
+	}
+
+	void Gerenciador::altera_turma()
+	{
+		std::cout << "fuck this shit, Im out of here." << std::endl;
 	}
 
 	void Gerenciador::cadastra_aluno()
@@ -211,8 +289,8 @@ namespace gerenc
 		if(curso == 0)
 		{
 			std::cout << "Curso inexistente, abortando operacao." << std::endl;
+			menu_alunos(false);
 		}
-
 		base::Aluno(curso, matricula, nome).save();
 		menu_alunos(false);
 	}
@@ -373,6 +451,8 @@ namespace gerenc
 
 	void Gerenciador::remove_professor()
 	{
+
+
 		std::cout << "Siape: ";
 		std::string siape;
 		std::cin.ignore();
