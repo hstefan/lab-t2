@@ -183,6 +183,20 @@ namespace base
 		return TurmaIter(0);
 	}
 
+	Turma* Turmas::getTurma(const std::string& cod_curso, const std::string& cod_turma)
+	{
+		Turma* t = 0;
+		for(list<Turma>::iterator it = turmas.begin(); it != turmas.end(); it++)
+		{
+			if((*it).getCurso().getCodigo() == cod_curso && (*it).getCodigo() == cod_turma)
+			{
+				t = &(*it);
+				break;
+			}
+		}
+		return t;
+	}
+
 	Professores::Professores()
 		: Tabela("professores"), professores()
 	{}
