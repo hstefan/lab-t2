@@ -74,6 +74,18 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="banco.h" />
+    <ClInclude Include="dados.h" />
+    <ClInclude Include="gerenciador.h" />
+    <ClInclude Include="list.h" />
+    <ClInclude Include="registro.h" />
+    <ClInclude Include="tabelas.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="banco.cpp" />
+    <ClCompile Include="dados.cpp" />
+    <ClCompile Include="gerenciador.cpp" />
+    <ClCompile Include="tabelas.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
