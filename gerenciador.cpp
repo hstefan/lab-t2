@@ -274,7 +274,7 @@ namespace gerenc
 		base::Curso* c = cursos.getCurso(cod);
 		if(c != 0)
 		{
-			std::cout << "Codigo da disciplina: " << std::endl;
+			std::cout << "Codigo da disciplina: ";
 			std::getline(std::cin, cod);
 			base::Turma t(c, cod);
 			t.save();
