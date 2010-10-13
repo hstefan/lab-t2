@@ -68,22 +68,26 @@ namespace gerenc
 		{
 		case '1':
 			cadastra_aluno();
+			menu_alunos(false);
 			break;
 		case '2':
 			remove_aluno();
+			menu_alunos(false);
 			break;
 		case '3':
 			altera_aluno();
+			menu_alunos(false);
 			break;
 		case '4':
 			lista_alunos();
+			menu_alunos(false);
 			break;
 		case '5':
 			menu_inicial();
 			break;
 		default:
 			std::cout << "Opcao invalida" << std::endl;
-			menu_alunos();
+			menu_alunos(false);
 			break;
 		}
 	}
@@ -103,15 +107,19 @@ namespace gerenc
 		{
 		case '1':
 			cadastra_curso();
+			menu_cursos(false);
 			break;
 		case '2':
 			remove_curso();
+			menu_cursos(false);
 			break;
 		case '3':
 			altera_curso();
+			menu_cursos(false);
 			break;
 		case '4':
 			lista_cursos();
+			menu_cursos(false);
 			break;
 		case '5':
 			menu_inicial();
@@ -138,15 +146,19 @@ namespace gerenc
 		{
 		case '1':
 			cadastra_disciplina();
+			menu_disciplinas(false);
 			break;
 		case '2':
 			remove_disciplina();
+			menu_disciplinas(false);
 			break;
 		case '3':
 			altera_disciplina();
+			menu_disciplinas(false);
 			break;
 		case '4':
 			lista_disciplinas();
+			menu_disciplinas(false);
 			break;
 		case '5':
 			menu_inicial();
@@ -172,15 +184,19 @@ namespace gerenc
 		{
 		case '1':
 			cadastra_professor();
+			menu_professores(false);
 			break;
 		case '2':
 			remove_professor();
+			menu_professores(false);
 			break;
 		case '3':
 			altera_professor();
+			menu_professores(false);
 			break;
 		case '4':
 			lista_professores();
+			menu_professores(false);
 			break;
 		case '5':
 			menu_inicial();
@@ -208,21 +224,24 @@ namespace gerenc
 		{
 		case '1':
 			cadastra_turma();
+			menu_turmas(false);
 			break;
 		case '2':
 			remove_turma();
+			menu_turmas(false);
 			break;
 		case '3':
 			altera_turma();
+			menu_turmas(false);
 			break;
 		case '4':
 			menu_inicial();
 			break;
 		default:
 			std::cout << "Opcao invalida." << std::endl;
+			menu_turmas(false);
 			break;
 		}
-		menu_turmas(false);
 	}
 	
 	void Gerenciador::remove_turma()
@@ -238,7 +257,6 @@ namespace gerenc
 			t->erase();
 		else
 			std::cout << "Turma nao encontrada, abortando operacao." << std::endl;
-		menu_turmas(false);
 	}
 
 	void Gerenciador::cadastra_turma()
@@ -265,7 +283,6 @@ namespace gerenc
 		}
 		else
 			std::cout << "Curso nao encontrado." << std::endl;
-		menu_turmas(false);
 	}
 
 	void Gerenciador::altera_turma()
@@ -292,7 +309,6 @@ namespace gerenc
 			menu_alunos(false);
 		}
 		base::Aluno(curso, matricula, nome).save();
-		menu_alunos(false);
 	}
 
 	void Gerenciador::remove_aluno()
@@ -310,7 +326,6 @@ namespace gerenc
 		}
 		else
 			std::cout << "Aluno nao encontrado" << std::endl;
-		menu_alunos(false);
 	}
 
 	void Gerenciador::altera_aluno()
@@ -355,14 +370,12 @@ namespace gerenc
 		}
 		else
 			std::cout << "Aluno nao encontrado" << std::endl;
-		menu_alunos(false);
 	}
 
 	void Gerenciador::lista_alunos()
 	{
 		for(base::Alunos::AlunoIter it = alunos.begin(); it != alunos.end(); it++)
 			std::cout << (*it).getMatricula()  << "\t" << (*it).getNome() << std::endl;
-		menu_alunos(false);
 	}
 
 	void Gerenciador::cadastra_curso()
@@ -374,7 +387,6 @@ namespace gerenc
 		std::cout << "Nome: ";
 		std::getline(std::cin, nome);
 		base::Curso(cod, nome).save();
-		menu_cursos(false);
 	}
 
 	void Gerenciador::remove_curso()
@@ -388,7 +400,6 @@ namespace gerenc
 			curso->erase();
 		else
 			std::cout << "Curso nao encontrado" << std::endl;
-		menu_cursos(false);
 	}
 
 	void Gerenciador::altera_curso()
@@ -423,14 +434,12 @@ namespace gerenc
 		}
 		else
 			std::cout << "Curso nao encontrado" << std::endl;
-		menu_cursos(false);
 	}
 
 	void Gerenciador::lista_cursos()
 	{
 		for(base::Cursos::CursoIter it = cursos.begin(); it != cursos.end(); it++)
 			std::cout << (*it).getCodigo() << "\t" << (*it).getNome() << std::endl;
-		menu_cursos(false);
 	}
 
 	void Gerenciador::cadastra_professor()
@@ -446,13 +455,10 @@ namespace gerenc
 		std::cout << "Area: ";
 		std::getline(std::cin, area);
 		base::Professor(siape, nome, area, titulacao).save();
-		menu_professores(false);
 	}
 
 	void Gerenciador::remove_professor()
 	{
-
-
 		std::cout << "Siape: ";
 		std::string siape;
 		std::cin.sync();
@@ -462,7 +468,6 @@ namespace gerenc
 			prof->erase();
 		else
 			std::cout << "Professor nao encontrado." << std::endl;
-		menu_professores(false);
 	}
 
 	void Gerenciador::altera_professor()
@@ -508,7 +513,6 @@ namespace gerenc
 		}
 		else
 			std::cout << "Professor nao encontrado." << std::endl;
-		menu_professores(false);
 	}
 
 	void Gerenciador::lista_professores()
@@ -518,7 +522,6 @@ namespace gerenc
 			std::cout << (*it).getSiape() << "\t" << (*it).getNome() << "\t" << (*it).getTitulacao() 
 				<< "\t" << (*it).getArea() << std::endl;
 		}
-		menu_professores(false);
 	}
 	
 	void Gerenciador::cadastra_disciplina()
@@ -551,7 +554,6 @@ namespace gerenc
 		base::Disciplina(cod_disc, c, nome, carga).save();
 		std::cout << "Por padrao, turmas sao criadas sem nenhum requisito, caso deseje adcionar algum utilize a operacao 'Alterar Disciplina'" 
 			<< std::endl;
-		menu_disciplinas(false);
 	}
 
 	void Gerenciador::altera_disciplina()
@@ -664,13 +666,11 @@ namespace gerenc
 			std::cout << "Disciplina nao entrada." << std::endl;
 			remove_disciplina();
 		}
-		menu_disciplinas();
 	}
 
 	void Gerenciador::lista_disciplinas()
 	{
 		for(base::Disciplinas::DisciplinaIter it = disciplinas.begin(); it != disciplinas.end(); it++)
 			std::cout << (*it).getCodigo() << "\t" << (*it).getNome() << "\t" << (*it).getCarga() << "\t" << (*it).getCurso().getNome() << std::endl;
-		menu_disciplinas();
 	}
 } 
