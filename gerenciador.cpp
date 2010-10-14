@@ -438,7 +438,7 @@ namespace gerenc
 	void Gerenciador::lista_alunos()
 	{
 		for(base::Alunos::AlunoIter it = alunos.begin(); it != alunos.end(); it++)
-			std::cout << (*it).getMatricula()  << "\t" << (*it).getNome() << std::endl;
+			std::cout << (*it) << std::endl;
 	}
 
 	void Gerenciador::cadastra_curso()
@@ -502,7 +502,7 @@ namespace gerenc
 	void Gerenciador::lista_cursos()
 	{
 		for(base::Cursos::CursoIter it = cursos.begin(); it != cursos.end(); it++)
-			std::cout << (*it).getCodigo() << "\t" << (*it).getNome() << std::endl;
+			std::cout << (*it) << std::endl;
 	}
 
 	void Gerenciador::cadastra_professor()
@@ -581,10 +581,7 @@ namespace gerenc
 	void Gerenciador::lista_professores()
 	{
 		for(base::Professores::ProfIter it = professores.begin(); it != professores.end(); it++)
-		{
-			std::cout << (*it).getSiape() << "\t" << (*it).getNome() << "\t" << (*it).getTitulacao() 
-				<< "\t" << (*it).getArea() << std::endl;
-		}
+			std::cout << (*it) << std::endl;
 	}
 	
 	void Gerenciador::cadastra_disciplina()
@@ -734,7 +731,7 @@ namespace gerenc
 	void Gerenciador::lista_disciplinas()
 	{
 		for(base::Disciplinas::DisciplinaIter it = disciplinas.begin(); it != disciplinas.end(); it++)
-			std::cout << (*it).getCodigo() << "\t" << (*it).getNome() << "\t" << (*it).getCarga() << "\t" << (*it).getCurso().getNome() << std::endl;
+			std::cout << (*it) << std::endl;
 	}
 
 	void Gerenciador::busca_aluno()
@@ -746,8 +743,6 @@ namespace gerenc
 		if(a == 0)
 			std::cout << "Aluno nao encontrado :(" << std::endl;
 		else
-		{
-			
-		}
+			std::cout << *a << std::endl;
 	}
 } 
