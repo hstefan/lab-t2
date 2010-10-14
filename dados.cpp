@@ -61,6 +61,13 @@ namespace base
 		this->nome = nome;
 	}
 
+	void Aluno::print(std::ostream& os) const
+	{
+		os << "Matricula: " << this->getMatricula() << std::endl;
+		os << "Nome: " << this->getMatricula() << std::endl;
+		os << "Curso: " << this->getCurso().getNome();
+	}
+
 	Professor::Professor(const std::string& siape, const std::string& nome, 
 		const std::string& area, const std::string& titulacao)
 		: siape(siape), nome(nome), area(area), titulacao(titulacao), Registro("professores")
@@ -128,6 +135,14 @@ namespace base
 	const std::string& Professor::getTitulacao() const
 	{
 		return titulacao;
+	}
+
+	void Professor::print(std::ostream& os) const
+	{
+		os << "Siape: " << siape << std::endl;
+		os << "Titulacao: " << titulacao << std::endl;
+		os << "Area: " << area << std::endl;
+		os << "Nome: " << nome << std::endl;
 	}
 
 	Disciplina::Disciplina(const std::string& codigo, Curso* curso, const std::string& nome, 
@@ -230,6 +245,18 @@ namespace base
 				break;
 			}
 		}
+	}
+
+	void Disciplina::print(std::ostream& os) const
+	{
+		os << "Curso: " << curso->getNome() << std::endl;
+		os << "Codigo: " << codigo << std::endl;
+		os << "Nome: " << nome << std::endl;
+		os << "Carga horaria: " << carga << std::endl;
+		os << "Requisitos: ";
+		for(DiscIterator it = getRequisitosBeginIter(); it != --getRequisitosEndIter(); it++)
+			os << (*it)->getCodigo() << ", ";
+		os << (*(--getRequisitosEndIter()))->getCodigo() << std::endl;
 	}
 
 	void Disciplina::removeRequisito(DiscIterator disciplina)
@@ -361,6 +388,19 @@ namespace base
 		Banco::getInstance().sync(nome_tabela, this);
 	}
 
+	void Turma::print(std::ostream& os) const
+	{
+		os << "Codigo: " << cod_turma << std::endl;
+		os << "Alunos (matricula): ";
+		for(AlunosIter it = getAlunosBegin(); it != --getAlunosEnd(); it++)
+			os << (*it)->getMatricula() << ", ";
+		os << (*(--getAlunosEnd()))->getMatricula() << std::endl;
+		os << "Professores (siape): ";
+		for(ProfessoresIter it = getProfessoresBegin(); it != --getProfessoresEnd(); it++)
+			os << (*it)->getSiape() << ", ";
+		os << (*(--getProfessoresEnd()))->getSiape() << std::endl;
+	}
+
 	Curso::Curso(const std::string& codigo, const std::string& nome, ds::list<Turma>& turmas)
 		: codigo(codigo), nome(nome), turmas(), Registro("cursos")
 	{
@@ -433,6 +473,12 @@ namespace base
 		Banco::getInstance().sync(nome_tabela, this);
 	}
 
+	void Curso::print(std::ostream& os) const
+	{
+		os << "Codigo: " << codigo << std::endl;
+		os << "Nome: " << nome << std::endl;
+	}
+
 	Nota::Nota()
 		: aluno(0), turma(0), nota(), Registro("notas")
 	{}
@@ -469,5 +515,26 @@ namespace base
 	void Nota::setNota(note_type nota) 
 	{
 		this->nota = nota;
+	}
+
+	void Nota::save()
+	{
+		Banco::getInstance().save(nome_tabela, this);
+	}
+
+	void Nota::erase()
+	{
+		Banco::getInstance().erase(nome_tabela, this);
+	}
+
+	void Nota::sync()
+	{
+		Banco::getInstance().sync(nome_tabela, this);
+	}
+
+	void Nota::print(std::ostream& os) const
+	{
+		os << "Aluno (matricula): " << aluno->getMatricula() << std::endl;
+		os << "Turma (codigo): " << turma->getCodigo() << std::endl;
 	}
 }

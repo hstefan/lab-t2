@@ -29,6 +29,7 @@ namespace base
 		virtual void save();
 		virtual void erase();
 		virtual void sync();
+		void print(std::ostream& os) const;
 
 		Aluno& operator=(const Aluno& aluno);
 	private:
@@ -56,6 +57,7 @@ namespace base
 		virtual void save();
 		virtual void erase();
 		virtual void sync();
+		void print(std::ostream& os) const;
 	private:
 		std::string siape;
 		std::string nome;
@@ -95,6 +97,7 @@ namespace base
 		virtual void save();
 		virtual void erase();
 		virtual void sync();
+		void print(std::ostream& os) const;
 	private:
 		std::string codigo;
 		const Curso* curso;
@@ -138,7 +141,7 @@ namespace base
 		virtual void save();
 		virtual void erase();
 		virtual void sync();
-
+		void print(std::ostream& os) const;
 	private:
 		ds::list<Aluno*> alunos;
 		ds::list<Professor*> professores;
@@ -170,6 +173,7 @@ namespace base
 		virtual void save();
 		virtual void erase();
 		virtual void sync();
+		void print(std::ostream& os) const;
 	private:
 		std::string codigo;
 		std::string nome;
@@ -192,6 +196,11 @@ namespace base
 
 		note_type getNota() const;
 		void setNota(note_type nota);
+
+		virtual void save();
+		virtual void erase();
+		virtual void sync();
+		void print(std::ostream& os) const;
 	private:
 		Aluno* aluno;
 		Turma* turma;
