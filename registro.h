@@ -2,6 +2,7 @@
 #define HUGO_REGISTRO_H__
 
 #include <string>
+#include <ostream>
 
 namespace data
 {
@@ -22,6 +23,12 @@ namespace data
 			return codigo;
 		}
 
+		virtual void print(std::ostream& os) const
+		{
+			os << "Nome da tabela: " << nome_tabela << std::endl;
+			os << "Codigo do item: " << codigo << std::endl;
+		}
+
 		static const int NAO_REGISTRADO = -1;
 
 	protected:
@@ -31,6 +38,12 @@ namespace data
 			: nome_tabela(tab), codigo(NAO_REGISTRADO)
 		{}
 	};
+	
+	inline std::ostream& operator<< (std::ostream& stream, const data::Registro& reg)
+	{
+		reg.print(stream);
+		return stream;
+	}
 }
 
 #endif
