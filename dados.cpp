@@ -441,12 +441,12 @@ namespace base
 		: aluno(al), turma(t), nota(nota), Registro("notas")
 	{}
 
-	const Aluno* const Nota::getAluno() const
+	Aluno* Nota::getAluno() const
 	{
 		return aluno;
 	}
 
-	const Turma* const Nota::getTurma() const
+	Turma* Nota::getTurma() const
 	{
 		return turma;
 	}

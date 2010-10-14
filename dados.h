@@ -184,8 +184,8 @@ namespace base
 		Nota();
 		Nota(Aluno* al, Turma* t, note_type nota);
 
-		const Aluno* const getAluno() const;
-		const Turma* const getTurma() const;
+		Aluno* getAluno() const;
+		Turma* getTurma() const;
 
 		void setAluno(Aluno* aluno);
 		void setTurma(Turma* turma);
