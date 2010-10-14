@@ -17,6 +17,7 @@ namespace gerenc
 		void cadastra_professor();
 		void cadastra_curso();
 		void cadastra_disciplina();
+		void cadastra_aula();
 
 		void remove_turma();
 		void remove_aluno();
@@ -35,20 +36,31 @@ namespace gerenc
 		void lista_professores();
 		void lista_turmas();
 		void lista_disciplinas();
+
+		void busca_turma();
+		void busca_aluno();
+		void busca_professor();
+		void busca_curso();
+		void busca_disciplina();
 	
 		void menu_turmas(bool print_menu = true);
 		void menu_alunos(bool print_menu = true);
 		void menu_professores(bool print_menu = true);
 		void menu_cursos(bool print_menu = true);
 		void menu_disciplinas(bool print_menu = true);
+		void menu_notas(bool print_menu = true);
+		void menu_aulas(bool print_menu = true);
 
-	
+		void lanca_faltas();
+		void gera_relatorio();
+		
 	private:
 		base::Alunos alunos;
 		base::Cursos cursos;
 		base::Professores professores;
 		base::Disciplinas disciplinas;
 		base::Turmas turmas;
+		base::Notas notas;
 	};
 }
 
