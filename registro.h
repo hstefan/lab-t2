@@ -38,12 +38,12 @@ namespace data
 			: nome_tabela(tab), codigo(NAO_REGISTRADO)
 		{}
 	};
-	
-	inline std::ostream& operator<< (std::ostream& stream, const data::Registro& reg)
-	{
-		reg.print(stream);
-		return stream;
-	}
+}
+
+inline std::ostream& operator<< (std::ostream& stream, const data::Registro& reg)
+{
+	reg.print(stream);
+	return stream;
 }
 
 #endif
