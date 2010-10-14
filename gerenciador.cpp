@@ -310,6 +310,8 @@ namespace gerenc
 		std::cin >> op;
 		unsigned int mat;
 		std::string util;
+		base::Aluno* aluno;
+		base::Professor* prof;
 		switch(op)
 		{
 		case '1':
@@ -317,7 +319,7 @@ namespace gerenc
 			std::cout << "Matricula: ";
 			std::cin.sync();
 			std::cin >> mat;
-			base::Aluno* aluno = alunos.getAluno(mat);
+			aluno = alunos.getAluno(mat);
 			if(aluno != 0)
 			{
 				if(op == '1')
@@ -331,7 +333,7 @@ namespace gerenc
 			std::cout << "Siape: ";
 			std::cin.sync();
 			std::getline(std::cin, util);
-			base::Professor* prof = professores.getProfessor(util);
+			prof = professores.getProfessor(util);
 			if(prof != 0)
 			{
 				if(op == '3')
