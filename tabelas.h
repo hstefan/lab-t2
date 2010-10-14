@@ -147,7 +147,7 @@ namespace base
 		void remove(Registro* reg);
 		void update(Registro* reg);
 
-		Nota* getNota(const std::string& codCurso, unsigned int mat);
+		Nota* getNota(const std::string& codTurma, unsigned int mat);
 
 		typedef list<Nota>::iterator NotaIter;
 
