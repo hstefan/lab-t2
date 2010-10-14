@@ -352,5 +352,9 @@ namespace base
 
 		return DisciplinaIter(0);
 	}
+
+	Notas::Notas()
+		: Tabela("notas")
+	{}
 	
 }

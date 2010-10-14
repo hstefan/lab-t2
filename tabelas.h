@@ -138,6 +138,34 @@ namespace base
 	private:
 		list<Disciplina> disciplinas;
 	};
+
+	class Notas : public Tabela
+	{
+	public:
+		Notas();
+		void store(Registro* reg);
+		void remove(Registro* reg);
+		void update(Registro* reg);
+
+		Nota* getNota(const std::string& codCurso, unsigned int mat);
+
+		typedef list<Nota>::iterator NotaIter;
+
+		inline NotaIter begin() const
+		{
+			return notas.begin();
+		}
+
+		inline NotaIter end() const
+		{
+			return notas.end();
+		}
+
+	protected:
+		NotaIter search(const Nota& nota);
+	private:
+		list<Nota> notas;
+	};
 }
 
 
