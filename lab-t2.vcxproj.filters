@@ -38,9 +38,6 @@
     <ClCompile Include="banco.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="dados.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="gerenciador.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -48,6 +45,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="dados.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
