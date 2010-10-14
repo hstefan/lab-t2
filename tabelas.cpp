@@ -375,7 +375,10 @@ namespace base
 		if(Nota* n = NOTA_CAST(reg))
 		{
 			if(reg->getCodigoRegistro() != reg->NAO_REGISTRADO)
+			{
 				notas.erase(search(*n));
+				reg->setCodigoRegistro(reg->NAO_REGISTRADO);
+			}
 		}
 		else
 			throw RegistroIncompativelException(reg);
