@@ -432,4 +432,42 @@ namespace base
 	{
 		Banco::getInstance().sync(nome_tabela, this);
 	}
+
+	Nota::Nota()
+		: aluno(0), turma(0), nota(), Registro("notas")
+	{}
+
+	Nota::Nota(Aluno* al, Turma* t, note_type nota)
+		: aluno(al), turma(t), nota(nota), Registro("notas")
+	{}
+
+	const Aluno* const Nota::getAluno() const
+	{
+		return aluno;
+	}
+
+	const Turma* const Nota::getTurma() const
+	{
+		return turma;
+	}
+
+	void Nota::setAluno(Aluno* aluno)
+	{
+		this->aluno = aluno;
+	}
+
+	void Nota::setTurma(Turma* turma)
+	{
+		this->turma = turma;
+	}
+
+	Nota::note_type Nota::getNota() const
+	{
+		return nota;
+	}
+
+	void Nota::setNota(note_type nota) 
+	{
+		this->nota = nota;
+	}
 }

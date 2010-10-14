@@ -176,6 +176,28 @@ namespace base
 		ds::list<Turma*> turmas;
 	};
 
+	class Nota : public data::Registro
+	{
+	public:
+		typedef float note_type;
+
+		Nota();
+		Nota(Aluno* al, Turma* t, note_type nota);
+
+		const Aluno* const getAluno() const;
+		const Turma* const getTurma() const;
+
+		void setAluno(Aluno* const aluno);
+		void setTurma(Turma* const turma);
+
+		note_type getNota() const;
+		void setNota(note_type nota);
+	private:
+		Aluno* aluno;
+		Turma* turma;
+		note_type nota;
+	};
+
 	template <class InputIterator>
 	void Disciplina::setRequisitos(InputIterator begin, InputIterator end)
 	{
