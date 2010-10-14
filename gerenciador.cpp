@@ -7,13 +7,14 @@
 namespace gerenc
 {
 	Gerenciador::Gerenciador()
-		: alunos(), cursos()
+		: alunos(), cursos(), professores(), disciplinas(), turmas(), notas()
 	{
 		bd::Banco::getInstance().registerTable(&alunos);
 		bd::Banco::getInstance().registerTable(&cursos);
 		bd::Banco::getInstance().registerTable(&professores);
 		bd::Banco::getInstance().registerTable(&disciplinas);
 		bd::Banco::getInstance().registerTable(&turmas);
+		bd::Banco::getInstance().registerTable(&notas);
 	}
 
 	void Gerenciador::menu_inicial()
@@ -734,5 +735,19 @@ namespace gerenc
 	{
 		for(base::Disciplinas::DisciplinaIter it = disciplinas.begin(); it != disciplinas.end(); it++)
 			std::cout << (*it).getCodigo() << "\t" << (*it).getNome() << "\t" << (*it).getCarga() << "\t" << (*it).getCurso().getNome() << std::endl;
+	}
+
+	void Gerenciador::busca_aluno()
+	{
+		std::cout << "Digite a matricula: ";
+		unsigned int mat;
+		std::cin >> mat;
+		base::Aluno* a = alunos.getAluno(mat);
+		if(a == 0)
+			std::cout << "Aluno nao encontrado :(" << std::endl;
+		else
+		{
+			
+		}
 	}
 } 
