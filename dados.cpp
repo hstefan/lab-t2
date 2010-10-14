@@ -311,9 +311,39 @@ namespace base
 		alunos.erase(aluno);
 	}
 
+	void Turma::removerAluno(Aluno* aluno)
+	{
+		if(aluno != 0)
+		{
+			for(AlunosIter it = alunos.begin(); it != alunos.end(); it++)
+			{
+				if( (*it)->getMatricula() == aluno->getMatricula())
+				{
+					removerAluno(it);
+					break;
+				}
+			}
+		}
+	}
+
 	void Turma::removerProfessor(ProfessoresIter professor)
 	{
 		professores.erase(professor);
+	}
+
+	void Turma::removerProfessor(Professor* prof)
+	{
+		if(prof != 0)
+		{
+			for(ProfessoresIter it = professores.begin(); it != professores.end(); it++)
+			{
+				if( (*it)->getSiape() == prof->getSiape())
+				{
+					removerProfessor(it);
+					break;
+				}
+			}
+		}
 	}
 
 	void Turma::save()

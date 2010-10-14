@@ -132,6 +132,8 @@ namespace base
 		void adcionaProfessor(Professor* professor);
 		void removerAluno(AlunosIter aluno);
 		void removerProfessor(ProfessoresIter professor);
+		void removerAluno(Aluno* aluno);
+		void removerProfessor(Professor* professor);
 
 		virtual void save();
 		virtual void erase();
