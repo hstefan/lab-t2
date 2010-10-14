@@ -354,7 +354,68 @@ namespace base
 	}
 
 	Notas::Notas()
-		: Tabela("notas")
+		: notas(), Tabela("notas")
 	{}
+#define NOTA_CAST dynamic_cast<Nota*> 
+	void Notas::store(Registro* reg)
+	{
+		if(reg->getCodigoRegistro() == reg->NAO_REGISTRADO)
+		{
+			if(Nota* n = NOTA_CAST(reg))
+			{
+				reg->setCodigoRegistro(codigo++);
+				notas.push_back(*n);
+			}
+		}
+		else
+			throw RegistroIncompativelException(reg);
+	}
+	void Notas::remove(Registro* reg)
+	{
+		if(Nota* n = NOTA_CAST(reg))
+		{
+			if(reg->getCodigoRegistro() != reg->NAO_REGISTRADO)
+				notas.erase(search(*n));
+		}
+		else
+			throw RegistroIncompativelException(reg);
+	}
+	void Notas::update(Registro* reg)
+	{
+		if(Nota* n = NOTA_CAST(reg))
+		{
+			if(reg->getCodigoRegistro() != reg->NAO_REGISTRADO)
+			{
+				NotaIter it = search(*n);
+				if(it.node_ptr != 0)
+				{
+					(*it).setAluno(n->getAluno());
+					(*it).setNota(n->getNota());
+					(*it).setTurma(n->getTurma());
+				}
+			}
+		}
+		else
+			throw RegistroIncompativelException(reg);
+	}
 	
+	Notas::NotaIter Notas::search(const Nota& nota)
+	{
+		for(NotaIter it = notas.begin(); it != notas.end(); it++)
+		{
+			if((*it).getCodigoRegistro() == nota.getCodigoRegistro())
+				return it;
+		}
+		return NotaIter(0);
+	}
+
+	Nota* Notas::getNota(const std::string& codTurma, unsigned int mat)
+	{
+		for(NotaIter it = notas.begin(); it != notas.end(); it++)
+		{
+			if((*it).getTurma()->getCodigo() == codTurma && 
+				(*it).getAluno()->getMatricula() == mat)
+				return &(*it);
+		}
+	}
 }
