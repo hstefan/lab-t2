@@ -187,8 +187,8 @@ namespace base
 		const Aluno* const getAluno() const;
 		const Turma* const getTurma() const;
 
-		void setAluno(Aluno* const aluno);
-		void setTurma(Turma* const turma);
+		void setAluno(Aluno* aluno);
+		void setTurma(Turma* turma);
 
 		note_type getNota() const;
 		void setNota(note_type nota);
