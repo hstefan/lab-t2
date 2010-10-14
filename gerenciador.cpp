@@ -287,7 +287,67 @@ namespace gerenc
 
 	void Gerenciador::altera_turma()
 	{
-		std::cout << "fuck this shit, Im out of here." << std::endl;
+		std::cout << "Codigo da turma: ";
+		std::cin.sync();
+		std::string cod_t, cod_c;
+		std::getline(std::cin, cod_t);
+		std::cout << "Codigo do curso: ";
+		std::cin.sync();
+		std::getline(std::cin, cod_c);
+		base::Turma* turma = turmas.getTurma(cod_c, cod_t);
+		if(turma == 0)
+		{
+			std::cout << "Turma nao encontrada, abortando." << std::endl;
+			return;
+		}
+		std::cout << "1 - Adcionar aluno" << std::endl;
+		std::cout << "2 - Remover aluno" << std::endl;
+		std::cout << "3 - Adcionar professor" << std::endl;
+		std::cout << "4 - Remover Professor" << std::endl;
+		std::cout << "5 - Voltar" << std::endl;
+		char op;
+		std::cin.sync();
+		std::cin >> op;
+		unsigned int mat;
+		std::string util;
+		switch(op)
+		{
+		case '1':
+		case '2':
+			std::cout << "Matricula: ";
+			std::cin.sync();
+			std::cin >> mat;
+			base::Aluno* aluno = alunos.getAluno(mat);
+			if(aluno != 0)
+			{
+				if(op == '1')
+					turma->adcionaAluno(aluno);
+				else
+					turma->removerAluno(aluno);
+			}
+			break;
+		case '3':
+		case '4':
+			std::cout << "Siape: ";
+			std::cin.sync();
+			std::getline(std::cin, util);
+			base::Professor* prof = professores.getProfessor(util);
+			if(prof != 0)
+			{
+				if(op == '3')
+					turma->adcionaProfessor(prof);
+				else 
+					turma->removerProfessor(prof);
+			}
+			break;
+		case '5':
+			menu_turmas(false);
+			break;
+		default:
+			std::cout << "Opcao invalida, abortando." << std::endl;
+			menu_turmas(false);
+			break;
+		}
 	}
 
 	void Gerenciador::cadastra_aluno()
