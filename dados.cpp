@@ -1,5 +1,6 @@
 #include "dados.h"
 #include "banco.h"
+#include <iostream>
 
 namespace base
 {
@@ -325,7 +326,10 @@ namespace base
 
 	void Turma::adcionaAluno(Aluno* aluno)
 	{
-		alunos.push_back(aluno);
+		if(alunos.size() < 50)
+			alunos.push_back(aluno);
+		else
+			std::cout << "ih, magrao, a turma ta cheia" << std::endl;
 	}
 
 	void Turma::adcionaProfessor(Professor* professor)
@@ -480,11 +484,11 @@ namespace base
 	}
 
 	Nota::Nota()
-		: aluno(0), turma(0), nota(), Registro("notas")
+		: aluno(0), turma(0), nota(), data(0,0,0), Registro("notas")
 	{}
 
-	Nota::Nota(Aluno* al, Turma* t, note_type nota)
-		: aluno(al), turma(t), nota(nota), Registro("notas")
+	Nota::Nota(Aluno* al, Turma* t, note_type nota, const Data& data)
+		: aluno(al), turma(t), nota(nota), data(data.dia, data.mes, data.ano), Registro("notas")
 	{}
 
 	Aluno* Nota::getAluno() const

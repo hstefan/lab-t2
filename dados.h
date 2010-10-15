@@ -187,7 +187,7 @@ namespace base
 		struct Data;
 
 		Nota();
-		Nota(Aluno* al, Turma* t, note_type nota, const std::string& descricao, const Data& data);
+		Nota(Aluno* al, Turma* t, note_type nota, const Data& data);
 
 		Aluno* getAluno() const;
 		Turma* getTurma() const;
@@ -195,11 +195,6 @@ namespace base
 		inline Data getData() const 
 		{
 			return data;
-		}
-
-		std::string getDescricao() const
-		{
-			return descricao;
 		}
 
 		void setAluno(Aluno* aluno);
@@ -232,7 +227,6 @@ namespace base
 		Aluno* aluno;
 		Turma* turma;
 		Data data;
-		std::string descricao;
 		note_type nota;
 	};
 
