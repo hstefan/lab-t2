@@ -51,7 +51,9 @@ namespace gerenc
 		void menu_notas(bool print_menu = true);
 		void menu_aulas(bool print_menu = true);
 
-		void lanca_faltas();
+		void lanca_falta();
+		void lanca_nota();
+		void lanca_aula();
 		void gera_relatorio();
 		
 	private:

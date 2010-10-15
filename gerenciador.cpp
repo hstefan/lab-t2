@@ -21,7 +21,7 @@ namespace gerenc
 	{
 		std::cout << "Digite o numero da opcao que deseja operar" << std::endl;
 		std::cout << "1 - Alunos" << std::endl << "2 - Cursos" << std::endl << "3 - Disciplinas" 
-			<< std::endl << "4 - Professores" << std::endl << "5 - Turmas" << std::endl << "6 - Sair" << std::endl;
+			<< std::endl << "4 - Professores" << std::endl << "5 - Turmas" << std::endl << "6 - Notas" << std::endl << "7 - Aulas" << std::endl;
 		std::cout << "> ";
 		char op;
 		std::cin >> op;
@@ -44,8 +44,13 @@ namespace gerenc
 			menu_turmas();
 			break;
 		case '6':
-			return;
+			menu_notas();
 			break;
+		case '7':
+			menu_aulas();
+			break;
+		case '8':
+			return;
 		default:
 			std::cout << "Opcao invalida" << std::endl;
 			menu_inicial();
@@ -58,7 +63,7 @@ namespace gerenc
 		if(print_menu)
 		{
 			std::cout << "1 - Cadastrar" << std::endl << "2 - Remover" << std::endl <<"3 - Alterar" <<
-				std::endl << "4 - Listar" << std::endl << "5 - Voltar" << std::endl;
+				std::endl << "4 - Listar" << std::endl << "5 - Buscar" << std::endl << "6 - Voltar" << std::endl;
 		}
 		std::cout << "> ";
 
@@ -84,6 +89,9 @@ namespace gerenc
 			menu_alunos(false);
 			break;
 		case '5':
+			busca_aluno();
+			break;
+		case '6':
 			menu_inicial();
 			break;
 		default:
@@ -98,7 +106,7 @@ namespace gerenc
 		if(print_menu)
 		{
 			std::cout << "1 - Cadastrar" << std::endl << "2 - Remover" << std::endl <<"3 - Alterar" << std::endl <<
-				"4 - Listar" << std::endl << "5 - Voltar" << std::endl;
+				"4 - Listar" << std::endl << "5 - Buscar" << std::endl << "6 - Voltar" << std::endl;
 		}
 		std::cout << "> ";
 		char op;
@@ -123,6 +131,9 @@ namespace gerenc
 			menu_cursos(false);
 			break;
 		case '5':
+			busca_curso();
+			break;
+		case '6':
 			menu_inicial();
 			break;
 		default:
@@ -137,7 +148,7 @@ namespace gerenc
 		if(print_menu)
 		{
 			std::cout << "1 - Cadastrar" << std::endl << "2 - Remover" << std::endl <<"3 - Alterar" << std::endl <<
-				"4 - Listar" << std::endl << "5 - Voltar" << std::endl;
+				"4 - Listar" << std::endl << "5 - Buscar"<< std::endl << "5 - Voltar" << std::endl;
 
 		}
 		std::cout << "> ";
@@ -162,6 +173,9 @@ namespace gerenc
 			menu_disciplinas(false);
 			break;
 		case '5':
+			busca_disciplina();
+			break;
+		case '6':
 			menu_inicial();
 			break;
 		default:
@@ -175,7 +189,7 @@ namespace gerenc
 		if(print_menu)
 		{
 			std::cout << "1 - Cadastrar" << std::endl << "2 - Remover" << std::endl <<"3 - Alterar" << std::endl <<
-				"4 - Listar" << std::endl << "5 - Voltar" << std::endl;
+				"4 - Listar" << std::endl << "5 - Buscar" << std::endl << "6 - Voltar" << std::endl;
 		}
 		std::cout << "> ";
 		char op;
@@ -200,6 +214,9 @@ namespace gerenc
 			menu_professores(false);
 			break;
 		case '5':
+			busca_professor();
+			break;
+		case '6':
 			menu_inicial();
 			break;
 		default:
@@ -214,7 +231,7 @@ namespace gerenc
 		if(print_menu)
 		{ 
 			std::cout << "1 - Cadastrar" << std::endl << "2 - Remover" << std::endl << "3 - Alterar"
-				<< std::endl << "4 - Voltar" << std::endl;
+				<< std::endl << "4 - Buscar" << std::endl << "5 - Voltar" << std::endl;
 		}
 		std::cout << "> ";
 		std::cin.sync();
@@ -236,6 +253,9 @@ namespace gerenc
 			menu_turmas(false);
 			break;
 		case '4':
+			busca_turma();
+			break;
+		case '5':
 			menu_inicial();
 			break;
 		default:
@@ -802,5 +822,67 @@ namespace gerenc
 			std::cout << "Turma nao encontrada :(" << std::endl;
 		else
 			std::cout << *t << std::endl;
+	}
+
+	void Gerenciador::menu_notas(bool print_menu)
+	{
+		if(print_menu)
+		{
+			//Now Playing: Rage Against The Machine - Calm Like A Bomb - The Battle Of Los Angeles - 1999 - Alternative Rock / Hip Hop - MP3 - 192 kbps - 4:59 min
+			std::cout << "1 - Lancar" << std::endl;
+			std::cout << "2 - Gerar relatorio" << std::endl;
+			std::cout << "3 - Voltar" << std::endl;
+		}
+		std::cout << "> ";
+		char op;
+		std::cin.sync();
+		std::cin >> op;
+		std::cin.sync();
+		switch(op)
+		{
+		case '1':
+			lanca_nota();
+			menu_notas(false);
+			break;
+		case '2':
+			gera_relatorio();
+			menu_notas(false);
+			break;
+		case '3':
+			break;
+		default:
+			std::cout << "Opcao invalida. " << std::endl;
+			menu_notas(false);
+			break;
+		}
+	}
+
+	void Gerenciador::menu_aulas(bool print_menu)
+	{
+		if(print_menu)
+		{
+			std::cout << "1 - Lancar aula" <<std::endl;
+			std::cout << "2 - Lancar falta" <<std::endl;
+			std::cout << "3 - Voltar" <<std::endl;
+		}
+		std::cout << "> ";
+		char op;
+		switch(op)
+		{
+		case '1':
+			lanca_aula();
+			menu_notas(false);
+			break;
+		case '2':
+			lanca_falta();
+			menu_notas(false);
+			break;
+		case '3':
+			break;
+		default:
+			std::cout << "Opcao invalida. " << std::endl;
+			menu_notas(false);
+			break;
+		}
 	}
 } 
