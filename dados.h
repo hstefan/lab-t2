@@ -184,15 +184,32 @@ namespace base
 	{
 	public:
 		typedef float note_type;
+		struct Data;
 
 		Nota();
-		Nota(Aluno* al, Turma* t, note_type nota);
+		Nota(Aluno* al, Turma* t, note_type nota, const std::string& descricao, const Data& data);
 
 		Aluno* getAluno() const;
 		Turma* getTurma() const;
+		
+		inline Data getData() const 
+		{
+			return data;
+		}
+
+		std::string getDescricao() const
+		{
+			return descricao;
+		}
 
 		void setAluno(Aluno* aluno);
 		void setTurma(Turma* turma);
+		inline void setData(const Data& dat)
+		{
+			data.ano = dat.ano;
+			data.mes = dat.mes;
+			data.dia = dat.dia;
+		}
 
 		note_type getNota() const;
 		void setNota(note_type nota);
@@ -201,9 +218,21 @@ namespace base
 		virtual void erase();
 		virtual void sync();
 		void print(std::ostream& os) const;
+
+		struct Data
+		{
+			short dia, mes;
+			unsigned int ano;
+			Data(short dia, short me, unsigned int ano)
+				: dia(dia), mes(me), ano(ano)
+			{}
+		};
+
 	private:
 		Aluno* aluno;
 		Turma* turma;
+		Data data;
+		std::string descricao;
 		note_type nota;
 	};
 
