@@ -745,4 +745,62 @@ namespace gerenc
 		else
 			std::cout << *a << std::endl;
 	}
+
+	void Gerenciador::busca_curso()
+	{
+		std::cout << "Digite o codigo do curso: ";
+		std::string cod;
+		std::cin.sync();
+		std::getline(std::cin, cod);
+		base::Curso* c = cursos.getCurso(cod);
+		if(c == 0)
+			std::cout << "Curso nao encontrado :(" << std::endl;
+		else
+			std::cout << *c << std::endl;
+	}
+
+	void Gerenciador::busca_disciplina()
+	{
+		std::cout << "Digite o codigo da disciplina: ";
+		std::string cod_d, cod_c;
+		std::cin.sync();
+		std::getline(std::cin, cod_d);
+		std::cout << "Digite o codigo do curso: ";
+		std::cin.sync();
+		std::getline(std::cin, cod_c);
+		base::Disciplina* d = disciplinas.getDisciplina(cod_d, cod_c);
+		if(d == 0)
+			std::cout << "Disciplina nao encontrada :(" << std::endl;
+		else
+			std::cout << *d << std::endl;
+	}
+
+	void Gerenciador::busca_professor()
+	{
+		std::cout << "Digite o siape do professor: ";
+		std::string cod;
+		std::cin.sync();
+		std::getline(std::cin, cod);
+		base::Professor* c = professores.getProfessor(cod);
+		if(c == 0)
+			std::cout << "Professor nao encontrado :(" << std::endl;
+		else
+			std::cout << *c << std::endl;
+	}
+
+	void Gerenciador::busca_turma()
+	{
+		std::cout << "Digite o codigo da turma: ";
+		std::string cod_t, cod_c;
+		std::cin.sync();
+		std::getline(std::cin, cod_t);
+		std::cin.sync();
+		std::cout << "Digite o codigo do curso: ";
+		std::getline(std::cin, cod_c);
+		base::Turma* t = turmas.getTurma(cod_c, cod_t);
+		if(t == 0)
+			std::cout << "Turma nao encontrada :(" << std::endl;
+		else
+			std::cout << *t << std::endl;
+	}
 } 
