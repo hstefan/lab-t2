@@ -21,7 +21,8 @@ namespace gerenc
 	{
 		std::cout << "Digite o numero da opcao que deseja operar" << std::endl;
 		std::cout << "1 - Alunos" << std::endl << "2 - Cursos" << std::endl << "3 - Disciplinas" 
-			<< std::endl << "4 - Professores" << std::endl << "5 - Turmas" << std::endl << "6 - Notas" << std::endl << "7 - Aulas" << std::endl;
+			<< std::endl << "4 - Professores" << std::endl << "5 - Turmas" << std::endl << "6 - Notas" << std::endl << "7 - Aulas"  << std::endl
+			<< "8 - Sair" << std::endl;
 		std::cout << "> ";
 		char op;
 		std::cin >> op;
@@ -90,6 +91,7 @@ namespace gerenc
 			break;
 		case '5':
 			busca_aluno();
+			menu_alunos(false);
 			break;
 		case '6':
 			menu_inicial();
@@ -132,6 +134,7 @@ namespace gerenc
 			break;
 		case '5':
 			busca_curso();
+			menu_cursos(false);
 			break;
 		case '6':
 			menu_inicial();
@@ -151,7 +154,7 @@ namespace gerenc
 				"4 - Listar" << std::endl << "5 - Buscar"<< std::endl << "5 - Voltar" << std::endl;
 
 		}
-		std::cout << "> ";
+		std::cout << "> ";	
 		char op;
 		std::cin >> op;
 		switch(op)
@@ -215,6 +218,7 @@ namespace gerenc
 			break;
 		case '5':
 			busca_professor();
+			menu_professores(false);
 			break;
 		case '6':
 			menu_inicial();
@@ -254,6 +258,7 @@ namespace gerenc
 			break;
 		case '4':
 			busca_turma();
+			menu_turmas(false);
 			break;
 		case '5':
 			menu_inicial();
@@ -849,6 +854,7 @@ namespace gerenc
 			menu_notas(false);
 			break;
 		case '3':
+			menu_inicial();
 			break;
 		default:
 			std::cout << "Opcao invalida. " << std::endl;
@@ -867,6 +873,8 @@ namespace gerenc
 		}
 		std::cout << "> ";
 		char op;
+		std::cin >> op;
+		std::cin.sync();
 		switch(op)
 		{
 		case '1':
@@ -878,11 +886,83 @@ namespace gerenc
 			menu_notas(false);
 			break;
 		case '3':
+			menu_inicial();
 			break;
 		default:
 			std::cout << "Opcao invalida. " << std::endl;
-			menu_notas(false);
+			menu_aulas(false);
 			break;
 		}
+	}
+
+	void Gerenciador::lanca_nota()
+	{
+		std::cin.sync();
+		unsigned int mat;
+		std::string cod_curso, cod_t;
+		std::cout << "Matricula do aluno: ";
+		std::cin >> mat;
+		base::Aluno* aluno = alunos.getAluno(mat);
+		if(mat == 0)
+		{
+			std::cout << "Aluno inexistente no banco de dados." << std::endl;
+			return;
+		}
+		std::cin.sync();
+		std::cout << "Codigo do curso: ";
+		std::getline(std::cin, cod_curso);
+		std::cout << "Codigo da Turma: ";
+		std::getline(std::cin, cod_t);
+		base::Turma* turm = turmas.getTurma(cod_curso, cod_t);
+		if(turm == 0)
+		{
+			std::cout << "Turma nao encontrada, lol" << std::endl;
+			return;
+		}
+		short dia, mes;
+		unsigned ano;
+		cheat:
+		std::cout << "Data, dia: ";
+		std::cin.sync();
+		std::cin >> dia;
+		std::cin.sync();
+		std::cout << "Mes: ";
+		std::cin >> mes;
+		std::cout << "Ano: ";
+		std::cin.sync();
+		std::cin >> ano;
+		if(dia <= 0 || dia > 30 || mes <= 0 || mes <= 12)
+		{
+			std::cout << "Formato de data invalido" << std::endl;
+			goto cheat;
+		}
+		base::Nota::note_type nota;
+		cheat2:
+		std::cout << "Nota: ";
+		std::cin.sync();
+		std::cin >> nota;
+		if(nota < 0)
+		{
+			std::cout << "nota invalida" << std::endl;
+			goto cheat2;
+		}
+		base::Nota n(aluno, turm, nota, base::Nota::Data(dia,mes,ano));
+		n.save();
+		menu_notas(false);
+	}
+
+	void Gerenciador::gera_relatorio()
+	{
+		std::cout << "Nao implementado" << std::endl;
+	}
+
+	void Gerenciador::lanca_aula()
+	{
+		std::cout << "Nao implementado" << std::endl;
+	}
+	
+	void Gerenciador::lanca_falta()
+	{
+		std::cout << "Nao implementado" << std::endl;
 	}
 } 
