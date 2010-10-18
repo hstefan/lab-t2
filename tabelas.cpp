@@ -422,12 +422,12 @@ namespace base
 		}
 	}
 
-	Notas::NotasTurma::NotasTurma(base::Turma* turma, base::Notas& notas)
+	Notas::NotasTurma::NotasTurma(base::Turma* turma, const base::Notas* const notas)
 		: numProvas(0)
 	{
 		list<Nota> t;
 		//armazena todas as notas da turma na lista t
-		for(NotaIter it = notas.begin(); it != notas.end(); it++)
+		for(NotaIter it = notas->begin(); it != notas->end(); it++)
 		{
 			if((*it).getTurma()->getCodigo() == turma->getCodigo() && (*it).getTurma()->getCurso().getCodigo() == turma->getCurso().getCodigo())
 				t.push_back((*it));
@@ -437,7 +437,7 @@ namespace base
 		bool al_exists = false;
 		AlunoProva aux;
 		//cria uma lista contendo as
-		for(NotaIter it = t.begin(); it != notas.end(); it++)
+		for(NotaIter it = t.begin(); it != t.end(); it++)
 		{
 			for(list<AlunoProva>::iterator iv = m.begin(); iv != m.end(); iv++)
 			{
@@ -485,5 +485,11 @@ namespace base
 				return numProvas > 0 ? total/numProvas : 0;
 			}
 		}
+		return 0;
+	}
+
+	Notas::NotasTurma Notas::getNotas(Turma* turma) const
+	{
+		return NotasTurma(turma, this);
 	}
 }
