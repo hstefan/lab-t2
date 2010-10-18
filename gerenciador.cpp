@@ -300,7 +300,7 @@ namespace gerenc
 		base::Curso* c = cursos.getCurso(cod);
 		if(c != 0)
 		{
-			std::cout << "Codigo da disciplina: ";
+			std::cout << "Codigo da turma: ";
 			std::getline(std::cin, cod);
 			base::Turma t(c, cod);
 			t.save();
@@ -961,6 +961,13 @@ namespace gerenc
 		std::cin.sync();
 		std::getline(std::cin, cod_turma);
 		base::Turma* turma = turmas.getTurma(cod_curso, cod_turma);
+		
+		if(turma == 0)
+		{
+			std::cout << "Lol, turma nao encontrada." << std::endl;
+			return;
+		}
+
 		base::Notas::NotasTurma n = notas.getNotas(turma);
 		std::cout << "Alunos aprovados: " << std::endl;
 		using base::Notas;
@@ -979,7 +986,45 @@ namespace gerenc
 
 	void Gerenciador::lanca_aula()
 	{
-		std::cout << "Nao implementado" << std::endl;
+		std::cout << "Digite o codigo do curso: "; 
+		std::cin.sync();
+		std::string cod_curso, cod_turma;
+		std::getline(std::cin, cod_curso);
+		std::cout << "Digite o codigo da turma: ";
+		std::cin.sync();
+		std::getline(std::cin, cod_turma);
+		base::Turma* turma = turmas.getTurma(cod_curso, cod_turma);
+		
+		if(turma == 0)
+		{
+			std::cout << "Lol, turma nao encontrada." << std::endl;
+			return;
+		}
+
+		short dia, mes;
+		unsigned int ano;
+cheat:
+		std::cout << "Data, dia: ";
+		std::cin.sync();
+		std::cin >> dia;
+		std::cout << "mes: ";
+		std::cin.sync();
+		std::cin >> mes;
+		std::cout << "ano: ";
+		std::cin.sync();
+		std::cin >> ano;
+
+		if(dia < 1 || mes < 1 || mes > 12)
+		{
+			std::cout << "Data invalida" << std::endl;
+			goto cheat;
+		}
+
+		std::cout << "Descricao da aula: ";
+		std::string desc;
+		std::cin.sync();
+		std::getline(std::cin, desc);
+		base::Aula(desc, base::Nota::Data(dia, mes, ano), turma).save();
 	}
 	
 	void Gerenciador::lanca_falta()
