@@ -233,9 +233,16 @@ namespace base
 	class Aula
 	{
 	public:
+
+		struct PresencaAluno
+		{
+			Aluno* al;
+			bool presente;
+		};
+
 		std::string descricao;
 		Nota::Data data;
-		list<Aluno*> faltas;
+		list<PresencaAluno> faltas;
 		Turma* turma;
 
 		inline Aula(const std::string& desc, const Nota::Data& dat, Turma* t)
