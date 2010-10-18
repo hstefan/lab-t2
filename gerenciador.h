@@ -63,6 +63,7 @@ namespace gerenc
 		base::Disciplinas disciplinas;
 		base::Turmas turmas;
 		base::Notas notas;
+		base::Aulas aulas;
 	};
 }
 
