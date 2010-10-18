@@ -953,7 +953,28 @@ namespace gerenc
 
 	void Gerenciador::gera_relatorio()
 	{
-		std::cout << "Nao implementado" << std::endl;
+		std::cout << "Digite o codigo do curso: "; 
+		std::cin.sync();
+		std::string cod_curso, cod_turma;
+		std::getline(std::cin, cod_curso);
+		std::cout << "Digite o codigo da turma: ";
+		std::cin.sync();
+		std::getline(std::cin, cod_turma);
+		base::Turma* turma = turmas.getTurma(cod_curso, cod_turma);
+		base::Notas::NotasTurma n = notas.getNotas(turma);
+		std::cout << "Alunos aprovados: " << std::endl;
+		using base::Notas;
+		for(ds::list<Notas::NotasTurma::AlunoProva>::iterator it = n.notas.begin(); it != n.notas.end(); it++) 
+		{
+			if(n.calculaMedia((*it).al->getMatricula()) >= 7)
+				std::cout << *(*it).al << std::endl;
+		}
+		std::cout << "Alunos reprovados: " << std::endl;
+		for(ds::list<Notas::NotasTurma::AlunoProva>::iterator it = n.notas.begin(); it != n.notas.end(); it++) 
+		{
+			if(n.calculaMedia((*it).al->getMatricula()) < 7)
+				std::cout << *(*it).al << std::endl;
+		}
 	}
 
 	void Gerenciador::lanca_aula()
