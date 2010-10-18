@@ -1024,11 +1024,27 @@ cheat:
 		std::string desc;
 		std::cin.sync();
 		std::getline(std::cin, desc);
+		ds::list<base::Aula::PresencaAluno> presenca;
+		char presente = '.';
+		base::Aula::PresencaAluno pres;
+		std::cout << "Digite '.' caso o aluno com a matricula estivesse presente e qualquer outro simbolo caso contrario" << std::endl;
+		for(base::Turma::AlunosIter it = turma->getAlunosBegin(); it != turma->getAlunosEnd(); it++)
+		{
+			std::cout << (*it)->getMatricula() << ": ";
+			std::cin >> presente;
+			pres.al = (*it);
+			if(presente == '.')
+				pres.presente = true;
+			else
+				pres.presente = false;
+			presenca.push_back(pres);
+		}
+
 		base::Aula(desc, base::Nota::Data(dia, mes, ano), turma).save();
 	}
 	
 	void Gerenciador::lanca_falta()
 	{
-		std::cout << "Nao implementado" << std::endl;
+		std::cout << "As faltas devem ser lancadas durante o cadastro da aula." << std::endl;
 	}
 } 
