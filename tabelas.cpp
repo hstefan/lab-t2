@@ -421,4 +421,69 @@ namespace base
 				return &(*it);
 		}
 	}
+
+	Notas::NotasTurma::NotasTurma(base::Turma* turma, base::Notas& notas)
+		: numProvas(0)
+	{
+		list<Nota> t;
+		//armazena todas as notas da turma na lista t
+		for(NotaIter it = notas.begin(); it != notas.end(); it++)
+		{
+			if((*it).getTurma()->getCodigo() == turma->getCodigo() && (*it).getTurma()->getCurso().getCodigo() == turma->getCurso().getCodigo())
+				t.push_back((*it));
+		}
+
+		list<AlunoProva> m;
+		bool al_exists = false;
+		AlunoProva aux;
+		//cria uma lista contendo as
+		for(NotaIter it = t.begin(); it != notas.end(); it++)
+		{
+			for(list<AlunoProva>::iterator iv = m.begin(); iv != m.end(); iv++)
+			{
+				if((*iv).al->getMatricula() == (*it).getAluno()->getMatricula())
+				{
+					al_exists = true;
+					(*iv).notas.push_back((*it).getNota());
+					break;
+				}
+			}
+			if(!al_exists)
+			{
+				aux.al = (*it).getAluno();
+				aux.notas.push_back((*it).getNota());
+				m.push_back(aux);
+			}
+			al_exists = false;
+		}
+
+		for(list<AlunoProva>::iterator it = m.begin(); it != m.end(); it++)
+		{
+			if((*it).notas.size() > numProvas)
+				numProvas = (*it).notas.size();
+		}
+
+		for(list<AlunoProva>::iterator it = m.begin(); it != m.end(); it++)
+		{
+			while((*it).notas.size() < numProvas)
+				(*it).notas.push_back(0);
+		}
+
+		this->notas = m;
+	}
+
+	Nota::note_type Notas::NotasTurma::calculaMedia(unsigned int mat)
+	{
+		Nota::note_type total = 0;
+		for(list<AlunoProva>::iterator it = notas.begin(); it != notas.end(); it++)
+		{
+			if((*it).al->getMatricula() == mat)
+			{
+				total = 0;
+				for(list<Nota::note_type>::iterator iv = (*it).notas.begin(); iv != (*it).notas.end(); iv++)
+					total += (*iv);
+				return numProvas > 0 ? total/numProvas : 0;
+			}
+		}
+	}
 }

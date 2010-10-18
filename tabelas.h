@@ -161,9 +161,30 @@ namespace base
 			return notas.end();
 		}
 
+		class NotasTurma
+		{
+		public:
+
+			NotasTurma(base::Turma* turma, base::Notas& notas);
+
+			Nota::note_type calculaMedia(unsigned int mat);
+			
+			struct AlunoProva
+			{
+				Aluno* al;
+				list<Nota::note_type> notas;
+			};
+
+			list<AlunoProva> notas;
+			int numProvas;
+		};
+
+		NotasTurma getNotas(Turma* turma) const;
+
 	protected:
 		NotaIter search(const Nota& nota);
 	private:
+		friend class NotasTurma;
 		list<Nota> notas;
 	};
 }
