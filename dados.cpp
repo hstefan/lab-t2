@@ -541,4 +541,27 @@ namespace base
 		os << "Aluno (matricula): " << aluno->getMatricula() << std::endl;
 		os << "Turma (codigo): " << turma->getCodigo() << std::endl;
 	}
+
+	void Aula::save() 
+	{
+		Banco::getInstance().save(nome_tabela, this);
+	}
+
+	void Aula::erase()
+	{
+		Banco::getInstance().erase(nome_tabela, this);
+	}
+
+	void Aula::sync()
+	{
+		Banco::getInstance().sync(nome_tabela, this);
+	}
+
+	void Aula::print(std::ostream& os) const
+	{
+		os << "Data: " << data.dia << "/" << data.mes << "/" << data.ano << std::endl;
+		os << "Descricao: " << descricao <<std::endl;
+		os << "Codigo do curso: " << turma->getCurso().getCodigo() << std::endl;
+		os << "Codigo da disciplina: " << turma->getCodigo() << std::endl;
+	}
 }

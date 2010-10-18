@@ -230,7 +230,7 @@ namespace base
 		note_type nota;
 	};
 
-	class Aula
+	class Aula : public data::Registro
 	{
 	public:
 
@@ -242,12 +242,17 @@ namespace base
 
 		std::string descricao;
 		Nota::Data data;
-		list<PresencaAluno> faltas;
+		ds::list<PresencaAluno> faltas;
 		Turma* turma;
 
 		inline Aula(const std::string& desc, const Nota::Data& dat, Turma* t)
-			: descricao(desc), data(dat.dia, data.mes, data.ano), turma(t)
+			: descricao(desc), data(dat.dia, data.mes, data.ano), turma(t), Registro("aulas")
 		{}
+
+		virtual void save();
+		virtual void erase();
+		virtual void sync();
+		void print(std::ostream& os) const;
 	};
 
 	template <class InputIterator>
