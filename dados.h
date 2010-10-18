@@ -230,6 +230,19 @@ namespace base
 		note_type nota;
 	};
 
+	class Aula
+	{
+	public:
+		std::string descricao;
+		Nota::Data data;
+		list<Aluno*> faltas;
+		Turma* turma;
+
+		inline Aula(const std::string& desc, const Nota::Data& dat, Turma* t)
+			: descricao(desc), data(dat.dia, data.mes, data.ano), turma(t)
+		{}
+	};
+
 	template <class InputIterator>
 	void Disciplina::setRequisitos(InputIterator begin, InputIterator end)
 	{
