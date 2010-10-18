@@ -492,4 +492,61 @@ namespace base
 	{
 		return NotasTurma(turma, this);
 	}
+
+	void Aulas::store(Registro* reg)
+	{
+		if(reg->getCodigoRegistro() == reg->NAO_REGISTRADO)
+		{
+			if(Aula* n = dynamic_cast<Aula*>(reg))
+			{
+				reg->setCodigoRegistro(codigo++);
+				aulas.push_back(*n);
+			}
+		}
+		else
+			throw RegistroIncompativelException(reg);
+	}
+
+	void Aulas::remove(Registro* reg)
+	{
+		if(reg->getCodigoRegistro() != reg->NAO_REGISTRADO)
+		{
+			if(Aula* n = dynamic_cast<Aula*>(reg))
+			{
+				reg->setCodigoRegistro(reg->NAO_REGISTRADO);
+				aulas.erase(search(*n));
+			}
+		}
+		else
+			throw RegistroIncompativelException(reg);
+	}
+
+	void Aulas::update(Registro* reg)
+	{
+		if(reg->getCodigoRegistro() != reg->NAO_REGISTRADO)
+		{
+			if(Aula* n = dynamic_cast<Aula*>(reg))
+			{
+				AulaIter it = search(*n);
+				if(it.node_ptr != 0)
+				{
+					(*it).descricao = n->descricao;
+					(*it).data = n->data;
+					(*it).faltas = n->faltas;
+				}
+			}
+		}
+		else
+			throw RegistroIncompativelException(reg);
+	}
+
+	Aulas::AulaIter Aulas::search(const Aula& aula)
+	{
+		for(AulaIter it = aulas.begin(); it != aulas.end(); it++)
+		{
+			if((*it).getCodigoRegistro() == aula.getCodigoRegistro())
+				return it;
+		}
+		return AulaIter(0);
+	}
 }

@@ -187,6 +187,23 @@ namespace base
 		friend class NotasTurma;
 		list<Nota> notas;
 	};
+
+	class Aulas : public Tabela
+	{
+	public:
+		Aulas()
+			: Tabela("notas")
+		{}
+		void store(Registro* reg);
+		void remove(Registro* reg);
+		void update(Registro* reg);
+
+		typedef list<Aula>::iterator AulaIter;
+	protected:
+		AulaIter search(const Aula& aula);
+	private:
+		list<Aula> aulas;
+	};
 }
 
 
