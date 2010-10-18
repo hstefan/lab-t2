@@ -15,6 +15,7 @@ namespace gerenc
 		bd::Banco::getInstance().registerTable(&disciplinas);
 		bd::Banco::getInstance().registerTable(&turmas);
 		bd::Banco::getInstance().registerTable(&notas);
+		bd::Banco::getInstance().registerTable(&aulas);
 	}
 
 	void Gerenciador::menu_inicial()
