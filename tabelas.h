@@ -165,7 +165,7 @@ namespace base
 		{
 		public:
 
-			NotasTurma(base::Turma* turma, base::Notas& notas);
+			NotasTurma(base::Turma* turma, const base::Notas* const notas);
 
 			Nota::note_type calculaMedia(unsigned int mat);
 			
@@ -176,7 +176,7 @@ namespace base
 			};
 
 			list<AlunoProva> notas;
-			int numProvas;
+			unsigned int numProvas;
 		};
 
 		NotasTurma getNotas(Turma* turma) const;
